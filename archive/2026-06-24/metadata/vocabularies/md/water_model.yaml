@@ -1,0 +1,55 @@
+# BioSim CZ vocabulary: Water Model
+#
+# Curated subset of water models aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000067 (water model)
+
+# molsim: MOLSIM_000476
+- id: tip3p
+  title:
+    en: TIP3P
+
+# molsim: MOLSIM_000763
+- id: tip4p
+  title:
+    en: TIP4P
+
+# molsim: MOLSIM_000764
+- id: tip4p_ew
+  title:
+    en: TIP4P-Ew
+
+# molsim: MOLSIM_000766
+- id: tip4p_2005
+  title:
+    en: TIP4P/2005
+
+# molsim: MOLSIM_000765
+- id: tip4p_ice
+  title:
+    en: TIP4P/Ice
+
+# molsim: MOLSIM_000767
+- id: tip5p
+  title:
+    en: TIP5P
+
+# molsim: MOLSIM_000769
+- id: spc
+  title:
+    en: SPC
+
+# molsim: MOLSIM_000771
+- id: spc_e
+  title:
+    en: SPC/E
+
+# molsim: MOLSIM_000770
+- id: spc_flexible
+  title:
+    en: SPC flexible
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Water model not listed above.

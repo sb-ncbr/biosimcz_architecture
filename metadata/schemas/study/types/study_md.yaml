@@ -1,0 +1,40 @@
+# BioSim CZ MD Study metadata
+#
+# MD-specific metadata for a Study. Referenced from study.yaml via the
+# polymorphic `use:` directive. The parent Study's `study_type` selects this
+# variant; this object does not repeat the Study type discriminator.
+
+MdStudyMetadata:
+  type: object
+  properties:
+    md_dataset_kind:
+      type: vocabulary
+      vocabulary-type: md_dataset_kind
+      required: true
+      label:
+        en: MD Dataset Kind
+      help:
+        en: >-
+          Dataset-level classification, for example single trajectory,
+          replica set, parameter sweep, enhanced-sampling collection, or
+          free-energy workflow.
+
+    sampling_strategy:
+      type: vocabulary
+      vocabulary-type: sampling_strategy
+      label:
+        en: Sampling Strategy
+      help:
+        en: >-
+          High-level sampling strategy when the Study has one coherent
+          methodological intent, for example conventional MD, enhanced
+          sampling, replica exchange, or umbrella sampling.
+
+    study_protocol_summary:
+      type: fulltext
+      label:
+        en: Study Protocol Summary
+      help:
+        en: >-
+          Concise free-text summary of the protocol when the Study represents
+          one coherent workflow.

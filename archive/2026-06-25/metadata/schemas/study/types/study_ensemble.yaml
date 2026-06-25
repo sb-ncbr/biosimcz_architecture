@@ -1,0 +1,9 @@
+# BioSim CZ Ensemble Study metadata
+#
+# Placeholder schema for ensemble-specific Study metadata. Fields to be defined
+# in a later iteration. Referenced from study.yaml via the polymorphic `use:`
+# directive.
+
+EnsembleStudyMetadata:
+  type: object
+  properties: {}

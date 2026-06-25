@@ -1,0 +1,35 @@
+# BioSim CZ vocabulary: Box Type
+#
+# Simulation box geometries aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000032 (box type)
+
+# molsim: MOLSIM_000036
+- id: rectangular
+  title:
+    en: Rectangular / Cubic
+
+# molsim: MOLSIM_000033
+- id: rhombic_dodecahedron
+  title:
+    en: Rhombic Dodecahedron
+
+# molsim: MOLSIM_000034
+- id: truncated_octahedron
+  title:
+    en: Truncated Octahedron
+
+# molsim: MOLSIM_000035
+- id: hexagonal_prism
+  title:
+    en: Hexagonal Prism
+
+# molsim: MOLSIM_002027
+- id: triclinic
+  title:
+    en: Triclinic
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Box type not listed above.

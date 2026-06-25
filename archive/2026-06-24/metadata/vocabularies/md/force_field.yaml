@@ -1,0 +1,120 @@
+# BioSim CZ vocabulary: Force Field
+#
+# Curated subset of force fields aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000007 (force field)
+
+# molsim: MOLSIM_000021
+- id: amber_ff14sb
+  title:
+    en: AMBER ff14SB
+
+# molsim: MOLSIM_000749
+- id: amber_ff99sb
+  title:
+    en: AMBER ff99SB
+
+# molsim: MOLSIM_000750
+- id: amber_ff99sb_ildn
+  title:
+    en: AMBER ff99SB-ILDN
+
+# molsim: MOLSIM_000682
+- id: amber_ff19sb
+  title:
+    en: AMBER ff19SB
+
+# molsim: MOLSIM_000743
+- id: amber_ff12sb
+  title:
+    en: AMBER ff12SB
+
+# molsim: MOLSIM_000741
+- id: amber_ff02
+  title:
+    en: AMBER ff02
+
+# molsim: MOLSIM_000742
+- id: amber_ff10
+  title:
+    en: AMBER ff10
+
+# molsim: MOLSIM_000744
+- id: amber_ff94
+  title:
+    en: AMBER ff94
+
+# molsim: MOLSIM_000023
+- id: amber_gaff
+  title:
+    en: AMBER GAFF
+
+# molsim: MOLSIM_000024
+- id: amber_gaff2
+  title:
+    en: AMBER GAFF2
+
+# molsim: MOLSIM_000132
+- id: charmm36
+  title:
+    en: CHARMM36
+
+# molsim: MOLSIM_000751
+- id: charmm22
+  title:
+    en: CHARMM22
+
+# molsim: MOLSIM_000759
+- id: opls_aa
+  title:
+    en: OPLS-AA
+
+# molsim: MOLSIM_000760
+- id: opls_ua
+  title:
+    en: OPLS-UA
+
+# molsim: MOLSIM_001983
+- id: opls_aa_m
+  title:
+    en: OPLS-AA/M
+
+# molsim: MOLSIM_001984
+- id: opls_aa_l
+  title:
+    en: OPLS-AA/L
+
+# molsim: MOLSIM_001974
+- id: gromos_53a6
+  title:
+    en: GROMOS 53A6
+
+# molsim: MOLSIM_001975
+- id: gromos_53a5
+  title:
+    en: GROMOS 53A5
+
+# molsim: MOLSIM_001976
+- id: gromos_43a1p
+  title:
+    en: GROMOS 43A1P
+
+# molsim: MOLSIM_001977
+- id: gromos_87
+  title:
+    en: GROMOS-87
+
+# molsim: MOLSIM_001981
+- id: gromos96
+  title:
+    en: GROMOS96
+
+# molsim: MOLSIM_001982
+- id: martini
+  title:
+    en: Martini
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Force field not listed above.

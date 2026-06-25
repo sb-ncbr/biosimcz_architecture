@@ -1,0 +1,51 @@
+# BioSim CZ vocabulary registry
+#
+# Maps vocabulary identifiers used in schema `vocabulary-type` fields to their
+# source definition files. This file is the CESNET Invenio fixture catalogue.
+#
+# For deployment, copy this file to `app_data/vocabularies.yaml` and ensure
+# the referenced data files are in `app_data/vocabularies/`.
+
+software:
+  pid-type: v-sfwr
+  data-file: md/software.yaml
+
+force_field:
+  pid-type: v-ffld
+  data-file: md/force_field.yaml
+
+water_model:
+  pid-type: v-wmdl
+  data-file: md/water_model.yaml
+
+integrator:
+  pid-type: v-intr
+  data-file: md/integrator.yaml
+
+ensemble:
+  pid-type: v-ensm
+  data-file: md/ensemble.yaml
+
+thermostat:
+  pid-type: v-thrm
+  data-file: md/thermostat.yaml
+
+barostat:
+  pid-type: v-brst
+  data-file: md/barostat.yaml
+
+box_type:
+  pid-type: v-btyp
+  data-file: md/box_type.yaml
+
+md_dataset_kind:
+  pid-type: v-mdkt
+  data-file: md/dataset_kind.yaml
+
+sampling_strategy:
+  pid-type: v-smst
+  data-file: md/sampling_strategy.yaml
+
+file_semantic_type:
+  pid-type: v-fsty
+  data-file: file_semantic_type.yaml

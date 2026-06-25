@@ -1,0 +1,72 @@
+# BioSim CZ Experiment metadata
+#
+# Common Experiment envelope plus polymorphic type-specific metadata.
+# Referenced from the Study data model.
+
+Experiment:
+  type: object
+  properties:
+    name:
+      type: keyword
+      required: true
+      label:
+        en: Experiment Name
+      help:
+        en: >-
+          Short label for the experiment
+          (e.g., replica_1, NPT production).
+
+    description:
+      type: fulltext
+      label:
+        en: Description
+      help:
+        en: Free-text description of the experiment.
+
+    extraction_provenance:
+      use: ./definitions/extraction_provenance.yaml#/ExtractionProvenance
+
+    files:
+      type: array
+      label:
+        en: Files
+      help:
+        en: Files associated with this experiment, annotated with their semantic type.
+      items:
+        type: object
+        properties:
+          file_key:
+            type: keyword
+            required: true
+            label:
+              en: File Key
+            help:
+              en: Filename or key of the file attached to the Experiment.
+          semantic_type:
+            type: vocabulary
+            vocabulary-type: file_semantic_type
+            required: true
+            label:
+              en: Semantic Type
+            help:
+              en: Domain classification of the file content (e.g., parameter file, trajectory, topology).
+          description:
+            type: fulltext
+            label:
+              en: Description
+            help:
+              en: Optional free-text note about this file in the experiment context.
+
+    metadata:
+      type: polymorphic
+      discriminator: experiment_type
+      required: true
+      oneof:
+        - discriminator: MD
+          use: ./types/experiment_md.yaml#/MdMetadata
+
+        - discriminator: CG
+          use: ./types/experiment_cg.yaml#/CgMetadata
+
+        - discriminator: ensemble
+          use: ./types/experiment_ensemble.yaml#/EnsembleMetadata

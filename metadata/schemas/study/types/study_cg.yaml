@@ -1,0 +1,9 @@
+# BioSim CZ Coarse-Grained Study metadata
+#
+# Placeholder schema for CG-specific Study metadata. Fields to be defined in a
+# later iteration. Referenced from study.yaml via the polymorphic `use:`
+# directive.
+
+CgStudyMetadata:
+  type: object
+  properties: {}

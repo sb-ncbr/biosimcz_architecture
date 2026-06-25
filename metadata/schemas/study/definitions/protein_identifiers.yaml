@@ -1,0 +1,89 @@
+# BioSim CZ molecular identifier definitions
+#
+# Reusable identifier schemas referenced from study.yaml via the `use:`
+# directive.  Each top-level key is a complete polymorphic branch that can
+# be inlined with  `use: ./study-identifiers.yaml#/KeyName`.
+#
+# molsim annotations link identifier types to MOLSIM ontology classes for
+# architectural traceability and future RDF export.
+
+# molsim: MOLSIM_000686 (PDB ID)
+PdbIdentifier:
+  type: object
+  properties:
+    id_type:
+      type: keyword
+      required: true
+    identifier:
+      type: keyword
+      required: true
+      pattern: "^([0-9][a-zA-Z0-9]{3}|pdb_[a-z0-9]{8})$"
+      label:
+        en: PDB Identifier
+      help:
+        en: >-
+          Standard four-character PDB ID (e.g. 1AKI) or
+          extended wwPDB format (e.g. pdb_00001abc).
+    description:
+      type: fulltext
+      label:
+        en: Description
+
+# molsim: MOLSIM_000687 (UniProt ID)
+UniProtIdentifier:
+  type: object
+  properties:
+    id_type:
+      type: keyword
+      required: true
+    identifier:
+      type: keyword
+      required: true
+      pattern: "^[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$"
+      label:
+        en: UniProt Identifier
+      help:
+        en: UniProt accession number.
+    description:
+      type: fulltext
+      label:
+        en: Description
+
+# molsim: none (AlphaFold DB ID is not yet in MOLSIM)
+AlphaFoldIdentifier:
+  type: object
+  properties:
+    id_type:
+      type: keyword
+      required: true
+    identifier:
+      type: keyword
+      required: true
+      pattern: "^AF-[A-Z0-9]+-F[0-9]+$"
+      label:
+        en: AlphaFold DB Identifier
+      help:
+        en: AlphaFold DB identifier.
+    description:
+      type: fulltext
+      label:
+        en: Description
+
+# molsim: none (other = unsupported fallback)
+OtherIdentifier:
+  type: object
+  properties:
+    id_type:
+      type: keyword
+      required: true
+    identifier:
+      type: keyword
+      required: true
+      label:
+        en: Identifier
+      help:
+        en: Identifier from an unsupported scheme.
+    description:
+      type: fulltext
+      label:
+        en: Description

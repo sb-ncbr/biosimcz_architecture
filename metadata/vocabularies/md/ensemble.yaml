@@ -1,0 +1,30 @@
+# BioSim CZ vocabulary: Ensemble
+#
+# Thermodynamic ensembles aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000195 (ensemble)
+
+# molsim: MOLSIM_000196
+- id: nvt
+  title:
+    en: NVT (Canonical Ensemble)
+
+# molsim: MOLSIM_000197
+- id: npt
+  title:
+    en: NPT (Isothermal-Isobaric Ensemble)
+
+# molsim: MOLSIM_000198
+- id: nve
+  title:
+    en: NVE (Microcanonical Ensemble)
+
+# molsim: MOLSIM_000199
+- id: mu_vt
+  title:
+    en: muVT (Grand Canonical Ensemble)
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Ensemble not listed above.

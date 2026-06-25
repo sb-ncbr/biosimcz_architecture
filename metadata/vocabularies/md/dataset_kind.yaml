@@ -1,0 +1,43 @@
+# BioSim CZ vocabulary: MD Dataset Kind
+#
+# Dataset-level classifications for MD Studies. Some values are repository
+# collection-shape terms and do not have exact MOLSIM classes. MOLSIM mappings
+# are recorded only where the ontology contains a suitable term.
+
+- id: single_trajectory
+  title:
+    en: Single Trajectory
+  help:
+    en: Study organized around one primary MD trajectory or production run.
+
+- id: replica_set
+  title:
+    en: Replica Set
+  help:
+    en: Study organized around multiple replicas of the same molecular system.
+
+- id: parameter_sweep
+  title:
+    en: Parameter Sweep
+  help:
+    en: Study organized around multiple runs that vary one or more parameters.
+
+# molsim: MOLSIM_000845
+- id: enhanced_sampling_collection
+  title:
+    en: Enhanced-Sampling Collection
+  help:
+    en: Study organized around one or more enhanced-sampling simulations.
+
+# molsim: MOLSIM_000296
+- id: free_energy_workflow
+  title:
+    en: Free-Energy Workflow
+  help:
+    en: Study organized around a free-energy workflow.
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: MD dataset kind not listed above.

@@ -1,0 +1,18 @@
+# BioSim CZ Coarse-Grained Experiment metadata
+#
+# Placeholder schema for CG-specific metadata.  Fields to be defined in a
+# later iteration.  Referenced from experiment.yaml via the polymorphic
+# `use:` directive.
+
+CgMetadata:
+  type: object
+  properties:
+    experiment_type:
+      type: keyword
+      required: true
+      enum:
+        - CG
+      label:
+        en: Experiment Type
+      help:
+        en: Discriminator for coarse-grained experiment metadata.

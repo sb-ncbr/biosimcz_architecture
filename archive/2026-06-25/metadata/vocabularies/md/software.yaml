@@ -1,0 +1,50 @@
+# BioSim CZ vocabulary: Simulation Software
+#
+# Curated subset of molecular dynamics engines aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000160 (molecular dynamics engine)
+
+# molsim: MOLSIM_000247
+- id: gromacs
+  title:
+    en: GROMACS
+
+# molsim: MOLSIM_000217
+- id: amber
+  title:
+    en: AMBER
+
+# molsim: MOLSIM_000786
+- id: namd
+  title:
+    en: NAMD
+
+# molsim: MOLSIM_000248
+- id: charmm
+  title:
+    en: CHARMM
+
+# molsim: MOLSIM_000790
+- id: lammps
+  title:
+    en: LAMMPS
+
+# molsim: MOLSIM_000777
+- id: desmond
+  title:
+    en: Desmond
+
+# molsim: MOLSIM_001675
+- id: openmm
+  title:
+    en: OpenMM
+
+# molsim: MOLSIM_001935
+- id: yasara
+  title:
+    en: YASARA
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Simulation software not listed above.

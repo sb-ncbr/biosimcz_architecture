@@ -1,0 +1,50 @@
+# BioSim CZ vocabulary: Thermostat
+#
+# Curated subset of thermostat algorithms aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000038 (thermostat algorithm)
+
+# molsim: MOLSIM_000802
+- id: vrescale
+  title:
+    en: V-rescale
+
+# molsim: MOLSIM_000048
+- id: nose_hoover
+  title:
+    en: Nosé-Hoover
+
+# molsim: MOLSIM_000046
+- id: berendsen
+  title:
+    en: Berendsen
+
+# molsim: MOLSIM_000047
+- id: andersen
+  title:
+    en: Andersen
+
+# molsim: MOLSIM_000045
+- id: langevin
+  title:
+    en: Langevin
+
+# molsim: MOLSIM_000801
+- id: nose_poincare
+  title:
+    en: Nosé-Poincaré
+
+# molsim: MOLSIM_000800
+- id: nose
+  title:
+    en: Nosé
+
+# molsim: MOLSIM_000381
+- id: adaptive
+  title:
+    en: Adaptive Thermostat
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Thermostat not listed above.

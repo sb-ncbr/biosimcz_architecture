@@ -1,0 +1,153 @@
+# BioSim CZ extraction provenance
+#
+# Current extraction-run metadata stored on an Experiment. The prototype keeps
+# only the latest extraction attempt for a draft Experiment; rerunning extraction
+# replaces this object together with automatically extracted metadata.
+
+ExtractionProvenance:
+  type: object
+  properties:
+    engine_type:
+      type: keyword
+      required: true
+      label:
+        en: Engine Type
+      help:
+        en: Simulation engine family handled by the extraction workflow (e.g., gromacs).
+
+    extractor_name:
+      type: keyword
+      required: true
+      label:
+        en: Extractor Name
+      help:
+        en: Name of the engine-specific extraction tool (e.g., GROMACS MetaDump).
+
+    extractor_version:
+      type: keyword
+      label:
+        en: Extractor Version
+      help:
+        en: Version of the engine-specific extraction tool.
+
+    adaptor_name:
+      type: keyword
+      required: true
+      label:
+        en: Adaptor Name
+      help:
+        en: Name of the adaptor that mapped engine-native metadata into the BioSim CZ schema.
+
+    adaptor_version:
+      type: keyword
+      label:
+        en: Adaptor Version
+      help:
+        en: Version or release label of the adaptor or mapping rules.
+
+    extracted_at:
+      type: keyword
+      required: true
+      label:
+        en: Extracted At
+      help:
+        en: Timestamp of the extraction run, stored as an ISO 8601 date-time string.
+
+    status:
+      type: keyword
+      required: true
+      enum:
+        - success
+        - warning
+        - failed
+      label:
+        en: Extraction Status
+      help:
+        en: Overall result of the latest extraction and adaptation attempt.
+
+    source_files:
+      type: array
+      label:
+        en: Source Files
+      help:
+        en: Files selected as inputs for the extraction run.
+      items:
+        type: object
+        properties:
+          file_key:
+            type: keyword
+            required: true
+            label:
+              en: File Key
+            help:
+              en: Filename or repository key of the selected source file.
+          semantic_type:
+            type: vocabulary
+            vocabulary-type: file_semantic_type
+            required: true
+            label:
+              en: Semantic Type
+            help:
+              en: Semantic type assigned to the source file.
+          extraction_role:
+            type: keyword
+            required: true
+            enum:
+              - primary
+              - optional
+            label:
+              en: Extraction Role
+            help:
+              en: Role of the file in the extraction run.
+
+    messages:
+      type: array
+      label:
+        en: Extraction Messages
+      help:
+        en: File-level or stage-level messages from the latest extraction and adaptation attempt.
+      items:
+        type: object
+        properties:
+          stage:
+            type: keyword
+            required: true
+            enum:
+              - file_profile
+              - extractor
+              - adaptor
+            label:
+              en: Stage
+            help:
+              en: Processing stage that produced the message.
+          severity:
+            type: keyword
+            required: true
+            enum:
+              - info
+              - warning
+              - error
+            label:
+              en: Severity
+            help:
+              en: Message severity.
+          code:
+            type: keyword
+            required: true
+            label:
+              en: Message Code
+            help:
+              en: Stable code identifying the message type.
+          message:
+            type: fulltext
+            required: true
+            label:
+              en: Message
+            help:
+              en: Human-readable extraction or adaptation message.
+          file_key:
+            type: keyword
+            label:
+              en: File Key
+            help:
+              en: Source file related to the message, when the message concerns one selected file.

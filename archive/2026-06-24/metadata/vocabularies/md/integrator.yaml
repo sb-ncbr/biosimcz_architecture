@@ -1,0 +1,50 @@
+# BioSim CZ vocabulary: Integrator
+#
+# Curated subset of integration algorithms aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_001691 (integration algorithm)
+
+# molsim: MOLSIM_002022
+- id: leapfrog
+  title:
+    en: Leap-frog
+
+# molsim: MOLSIM_002023
+- id: velocity_verlet
+  title:
+    en: Velocity Verlet
+
+# molsim: MOLSIM_001692
+- id: beeman
+  title:
+    en: Beeman
+
+# molsim: MOLSIM_000110
+- id: euler
+  title:
+    en: Euler
+
+# molsim: MOLSIM_002024
+- id: brownian_dynamics
+  title:
+    en: Brownian Dynamics
+
+# molsim: MOLSIM_002026
+- id: stochastic_dynamics
+  title:
+    en: Stochastic Dynamics
+
+# molsim: MOLSIM_001733
+- id: velocity_verlet_middle
+  title:
+    en: Velocity-Verlet Middle
+
+# molsim: MOLSIM_001730
+- id: ir_resp
+  title:
+    en: I/r-RESPA
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Integrator not listed above.

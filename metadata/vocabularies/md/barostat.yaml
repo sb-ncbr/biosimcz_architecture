@@ -1,0 +1,55 @@
+# BioSim CZ vocabulary: Barostat
+#
+# Curated subset of barostat algorithms aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_000039 (barostat algorithm)
+
+# molsim: MOLSIM_000043
+- id: parrinello_rahman
+  title:
+    en: Parrinello-Rahman
+
+# molsim: MOLSIM_000040
+- id: berendsen
+  title:
+    en: Berendsen
+
+# molsim: MOLSIM_000041
+- id: monte_carlo
+  title:
+    en: Monte Carlo
+
+# molsim: MOLSIM_000042
+- id: andersen
+  title:
+    en: Andersen
+
+# molsim: MOLSIM_000044
+- id: langevin_piston
+  title:
+    en: Langevin-Piston
+
+# molsim: MOLSIM_000794
+- id: hoover
+  title:
+    en: Hoover
+
+# molsim: MOLSIM_000338
+- id: isotropic_position_scaling
+  title:
+    en: Isotropic Position Scaling
+
+# molsim: MOLSIM_000343
+- id: anisotropic_position_scaling
+  title:
+    en: Anisotropic Position Scaling
+
+# molsim: MOLSIM_000391
+- id: semi_isotropic
+  title:
+    en: Semi-Isotropic Pressure Scaling
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: Barostat not listed above.

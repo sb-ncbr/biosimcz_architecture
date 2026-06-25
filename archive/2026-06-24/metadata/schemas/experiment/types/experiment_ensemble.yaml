@@ -1,0 +1,18 @@
+# BioSim CZ Ensemble Experiment metadata
+#
+# Placeholder schema for ensemble-specific metadata.  Fields to be defined
+# in a later iteration.  Referenced from experiment.yaml via the polymorphic
+# `use:` directive.
+
+EnsembleMetadata:
+  type: object
+  properties:
+    experiment_type:
+      type: keyword
+      required: true
+      enum:
+        - ensemble
+      label:
+        en: Experiment Type
+      help:
+        en: Discriminator for ensemble experiment metadata.

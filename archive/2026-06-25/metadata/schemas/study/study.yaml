@@ -1,0 +1,61 @@
+# BioSim CZ Study metadata extension
+#
+# Generic metadata (title, creators, description, license, funding, related
+# identifiers, access rights) is inherited from CCMM and is not repeated here.
+# This file defines only the BioSim CZ domain-specific fields added at the
+# Study level.
+#
+
+Metadata:
+  properties:
+    study_type:
+      type: keyword
+      enum:
+        - MD
+        - CG
+        - ensemble
+      required: true
+      label:
+        en: Study Type
+      help:
+        en: Classification of the study. Prototype restricts this to MD.
+
+    studied_objects:
+      type: array
+      min_items: 1
+      required: true
+      items:
+        type: polymorphic
+        discriminator: id_type
+        oneof:
+          - discriminator: pdb
+            use: ./definitions/protein_identifiers.yaml#/PdbIdentifier
+
+          - discriminator: uniprot
+            use: ./definitions/protein_identifiers.yaml#/UniProtIdentifier
+
+          - discriminator: alphafold
+            use: ./definitions/protein_identifiers.yaml#/AlphaFoldIdentifier
+
+          - discriminator: other
+            use: ./definitions/protein_identifiers.yaml#/OtherIdentifier
+
+    metadata:
+      type: polymorphic
+      required: true
+      discriminator: study_type
+      label:
+        en: Study-Type-Specific Metadata
+      help:
+        en: >-
+          Metadata describing the Study as a whole. The selected variant is
+          determined by study_type.
+      oneof:
+        - discriminator: MD
+          use: ./types/study_md.yaml#/MdStudyMetadata
+
+        - discriminator: CG
+          use: ./types/study_cg.yaml#/CgStudyMetadata
+
+        - discriminator: ensemble
+          use: ./types/study_ensemble.yaml#/EnsembleStudyMetadata

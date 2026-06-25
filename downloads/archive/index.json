@@ -1,0 +1,18 @@
+{
+  "archives": [
+    {
+      "published_date": "2026-06-25",
+      "architecture_revision_date": "2026-06-25",
+      "browse_path": "archive/2026-06-25/",
+      "architecture_zip": "biosimcz-architecture-2026-06-25.zip",
+      "metadata_schema_zip": "biosimcz-metadata-schema-2026-06-25.zip"
+    },
+    {
+      "published_date": "2026-06-24",
+      "architecture_revision_date": "2026-06-24",
+      "browse_path": "archive/2026-06-24/",
+      "architecture_zip": "biosimcz-architecture-2026-06-24.zip",
+      "metadata_schema_zip": "biosimcz-metadata-schema-2026-06-24.zip"
+    }
+  ]
+}

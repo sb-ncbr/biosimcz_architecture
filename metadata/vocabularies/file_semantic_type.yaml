@@ -1,0 +1,64 @@
+# BioSim CZ vocabulary: File Semantic Type
+#
+# Curated subset of molecular data format concepts aligned with MOLSIM.
+# MOLSIM parent class: MOLSIM_001085 (molecular data format)
+
+# molsim: MOLSIM_002065
+- id: parameter_file
+  title:
+    en: Parameter File
+  help:
+    en: File that specifies simulation control variables, algorithmic settings, and thermodynamic conditions (e.g., GROMACS .mdp, AMBER mdin).
+
+- id: run_input
+  title:
+    en: Run Input
+  help:
+    en: Prepared or executable simulation input that bundles the information needed to start a run, such as processed parameters, topology, coordinates, and engine-specific settings (e.g., GROMACS .tpr). Not explicitly defined in MOLSIM; mapped to the vocabulary as a curated term.
+
+# molsim: MOLSIM_001091
+- id: topology
+  title:
+    en: Topology
+  help:
+    en: File that defines the constituent atoms of a molecular system, their connectivity, and associated force field parameters (e.g., .top, .prmtop, .psf).
+
+# molsim: MOLSIM_001088
+- id: structure
+  title:
+    en: Structure
+  help:
+    en: File that describes the three-dimensional arrangement of atoms in a molecule (e.g., .gro, .pdb, .crd, .inpcrd).
+
+# molsim: MOLSIM_001090
+- id: trajectory
+  title:
+    en: Trajectory
+  help:
+    en: File that stores the history of atomic positions (and optionally velocities or forces) recorded during a simulation (e.g., .xtc, .trr, .nc, .dcd).
+
+# molsim: MOLSIM_000441
+- id: state
+  title:
+    en: State / Restart
+  help:
+    en: File that stores a complete snapshot of a simulation state sufficient to resume the run (e.g., .cpt, .rst, .rst7).
+
+# molsim: MOLSIM_000439
+- id: log
+  title:
+    en: Log
+  help:
+    en: File that records the progress, settings, and key information generated during a simulation run (e.g., .log, .out, .std).
+
+- id: energy_data
+  title:
+    en: Energy Data
+  help:
+    en: File that stores energy and related time-series data produced during a simulation (e.g., GROMACS .edr, AMBER .ene). Not explicitly defined in MOLSIM; mapped to the vocabulary as a curated term.
+
+- id: other
+  title:
+    en: Other
+  help:
+    en: File type not covered by the categories above.

@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="BioSim CZ Team" />
+  <title>BioSim CZ Architecture</title>
+  <style>
+    code { white-space: pre-wrap; }
+    span.smallcaps { font-variant: small-caps; }
+    div.columns { display: flex; gap: min(4vw, 1.5em); }
+    div.column { flex: auto; overflow-x: auto; }
+    div.hanging-indent { margin-left: 1.5em; text-indent: -1.5em; }
+    ul.task-list[class] { list-style: none; }
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math { display: block; text-align: center; margin: 0.5rem auto; }
+  </style>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<div class="page-layout">
+  <nav id="TOC" role="doc-toc" class="sidebar-nav">
+<ul>
+<li><a href="#biosim-cz-overview" id="toc-biosim-cz-overview"><span
+class="toc-section-number">1</span> BioSim CZ overview</a>
+<ul>
+<li><a href="#purpose-and-current-target"
+id="toc-purpose-and-current-target"><span
+class="toc-section-number">1.1</span> Purpose and Current
+Target</a></li>
+<li><a href="#source-basis-and-traceability"
+id="toc-source-basis-and-traceability"><span
+class="toc-section-number">1.2</span> Source Basis and
+Traceability</a></li>
+<li><a href="#project-context" id="toc-project-context"><span
+class="toc-section-number">1.3</span> Project Context</a></li>
+<li><a href="#prototype-scope-and-development-direction"
+id="toc-prototype-scope-and-development-direction"><span
+class="toc-section-number">1.4</span> Prototype Scope and Development
+Direction</a>
+<ul>
+<li><a href="#current-prototype-scope"
+id="toc-current-prototype-scope"><span
+class="toc-section-number">1.4.1</span> Current Prototype Scope</a></li>
+<li><a href="#complete-version-scope"
+id="toc-complete-version-scope"><span
+class="toc-section-number">1.4.2</span> Complete-Version Scope</a></li>
+</ul></li>
+<li><a href="#interoperability-context"
+id="toc-interoperability-context"><span
+class="toc-section-number">1.5</span> Interoperability Context</a></li>
+<li><a href="#basic-information" id="toc-basic-information"><span
+class="toc-section-number">1.6</span> Basic Information</a></li>
+<li><a href="#team-members" id="toc-team-members"><span
+class="toc-section-number">1.7</span> Team Members</a></li>
+</ul></li>
+<li><a href="#biosim-cz-prototype-architecture"
+id="toc-biosim-cz-prototype-architecture"><span
+class="toc-section-number">2</span> BioSim CZ Prototype Architecture</a>
+<ul>
+<li><a href="#prototype-high-level-architecture"
+id="toc-prototype-high-level-architecture"><span
+class="toc-section-number">2.1</span> Prototype High-Level
+Architecture</a></li>
+<li><a href="#data-and-metadata-model"
+id="toc-data-and-metadata-model"><span
+class="toc-section-number">2.2</span> Data and Metadata Model</a>
+<ul>
+<li><a href="#conceptual-data-model"
+id="toc-conceptual-data-model"><span
+class="toc-section-number">2.2.1</span> Conceptual Data Model</a></li>
+<li><a href="#conceptual-metadata-model"
+id="toc-conceptual-metadata-model"><span
+class="toc-section-number">2.2.2</span> Conceptual Metadata
+Model</a></li>
+<li><a href="#md-engine-scope" id="toc-md-engine-scope"><span
+class="toc-section-number">2.2.3</span> MD Engine Scope</a></li>
+</ul></li>
+<li><a href="#study-identifiers-and-doi-registration"
+id="toc-study-identifiers-and-doi-registration"><span
+class="toc-section-number">2.3</span> Study Identifiers and DOI
+Registration</a></li>
+<li><a href="#prototype-fairification"
+id="toc-prototype-fairification"><span
+class="toc-section-number">2.4</span> Prototype FAIRification</a></li>
+<li><a href="#user-workflows" id="toc-user-workflows"><span
+class="toc-section-number">2.5</span> User Workflows</a>
+<ul>
+<li><a href="#deposition-workflow" id="toc-deposition-workflow"><span
+class="toc-section-number">2.5.1</span> Deposition Workflow</a></li>
+<li><a href="#discovery-workflow" id="toc-discovery-workflow"><span
+class="toc-section-number">2.5.2</span> Discovery Workflow</a></li>
+</ul></li>
+<li><a href="#prototype-verification-scope"
+id="toc-prototype-verification-scope"><span
+class="toc-section-number">2.6</span> Prototype Verification
+Scope</a></li>
+</ul></li>
+<li><a href="#metadata-model" id="toc-metadata-model"><span
+class="toc-section-number">3</span> BioSim CZ Prototype Metadata
+Model</a>
+<ul>
+<li><a href="#study-level-metadata" id="toc-study-level-metadata"><span
+class="toc-section-number">3.1</span> Study-level metadata</a>
+<ul>
+<li><a href="#studied_objects" id="toc-studied_objects"><span
+class="toc-section-number">3.1.1</span>
+<code>studied_objects</code></a></li>
+<li><a href="#type-specific-metadata"
+id="toc-type-specific-metadata"><span
+class="toc-section-number">3.1.2</span> Type-specific
+<code>metadata</code></a></li>
+<li><a href="#md-study-metadata" id="toc-md-study-metadata"><span
+class="toc-section-number">3.1.3</span> MD Study metadata</a></li>
+</ul></li>
+<li><a href="#experiment-level-metadata"
+id="toc-experiment-level-metadata"><span
+class="toc-section-number">3.2</span> Experiment-level metadata</a>
+<ul>
+<li><a href="#files-files" id="toc-files-files"><span
+class="toc-section-number">3.2.1</span> Files
+(<code>files</code>)</a></li>
+<li><a href="#type-specific-metadata-1"
+id="toc-type-specific-metadata-1"><span
+class="toc-section-number">3.2.2</span> Type-specific
+<code>metadata</code></a></li>
+<li><a href="#md-experiment-metadata"
+id="toc-md-experiment-metadata"><span
+class="toc-section-number">3.2.3</span> MD Experiment metadata</a>
+<ul>
+<li><a href="#simulation-setup-simulation_setup"
+id="toc-simulation-setup-simulation_setup"><span
+class="toc-section-number">3.2.3.1</span> Simulation Setup
+(<code>simulation_setup</code>)</a></li>
+<li><a href="#thermodynamic-state-thermodynamic_state"
+id="toc-thermodynamic-state-thermodynamic_state"><span
+class="toc-section-number">3.2.3.2</span> Thermodynamic State
+(<code>thermodynamic_state</code>)</a></li>
+<li><a href="#temporal-extent-temporal_extent"
+id="toc-temporal-extent-temporal_extent"><span
+class="toc-section-number">3.2.3.3</span> Temporal Extent
+(<code>temporal_extent</code>)</a></li>
+<li><a href="#system-system" id="toc-system-system"><span
+class="toc-section-number">3.2.3.4</span> System
+(<code>system</code>)</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#prototype-metadata-extractors"
+id="toc-prototype-metadata-extractors"><span
+class="toc-section-number">4</span> BioSim CZ Prototype Metadata
+Extractors</a>
+<ul>
+<li><a href="#architectural-position"
+id="toc-architectural-position"><span
+class="toc-section-number">4.1</span> Architectural Position</a></li>
+<li><a href="#gromacs-extraction-profile"
+id="toc-gromacs-extraction-profile"><span
+class="toc-section-number">4.2</span> GROMACS Extraction Profile</a>
+<ul>
+<li><a href="#gromacs-file-profile" id="toc-gromacs-file-profile"><span
+class="toc-section-number">4.2.1</span> GROMACS File Profile</a></li>
+<li><a href="#gromacs-extractor" id="toc-gromacs-extractor"><span
+class="toc-section-number">4.2.2</span> GROMACS Extractor</a></li>
+<li><a href="#biosim-cz-gromacs-adaptor"
+id="toc-biosim-cz-gromacs-adaptor"><span
+class="toc-section-number">4.2.3</span> BioSim CZ GROMACS
+Adaptor</a></li>
+</ul></li>
+<li><a href="#extractor-validation-and-depositor-review"
+id="toc-extractor-validation-and-depositor-review"><span
+class="toc-section-number">4.3</span> Extractor Validation and Depositor
+Review</a>
+<ul>
+<li><a href="#extraction-provenance"
+id="toc-extraction-provenance"><span
+class="toc-section-number">4.3.1</span> Extraction provenance</a></li>
+</ul></li>
+<li><a href="#future-engine-extraction-profiles"
+id="toc-future-engine-extraction-profiles"><span
+class="toc-section-number">4.4</span> Future Engine Extraction
+Profiles</a></li>
+</ul></li>
+<li><a href="#biosim-cz-prototype-ui"
+id="toc-biosim-cz-prototype-ui"><span
+class="toc-section-number">5</span> BioSim CZ Prototype UI</a>
+<ul>
+<li><a href="#main-page" id="toc-main-page"><span
+class="toc-section-number">5.1</span> Main Page</a></li>
+<li><a href="#deposit-form" id="toc-deposit-form"><span
+class="toc-section-number">5.2</span> Deposit Form</a>
+<ul>
+<li><a href="#study" id="toc-study"><span
+class="toc-section-number">5.2.1</span> Study</a></li>
+<li><a href="#experiment" id="toc-experiment"><span
+class="toc-section-number">5.2.2</span> Experiment</a></li>
+</ul></li>
+<li><a href="#browse-datasets" id="toc-browse-datasets"><span
+class="toc-section-number">5.3</span> Browse Datasets</a></li>
+<li><a href="#dataset-detail" id="toc-dataset-detail"><span
+class="toc-section-number">5.4</span> Dataset Detail</a>
+<ul>
+<li><a href="#study-detail" id="toc-study-detail"><span
+class="toc-section-number">5.4.1</span> Study Detail</a></li>
+<li><a href="#experiments-list" id="toc-experiments-list"><span
+class="toc-section-number">5.4.2</span> Experiments List</a></li>
+<li><a href="#experiment-detail" id="toc-experiment-detail"><span
+class="toc-section-number">5.4.3</span> Experiment Detail</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#glossary" id="toc-glossary"><span
+class="toc-section-number">6</span> Glossary</a>
+<ul>
+<li><a href="#terms" id="toc-terms"><span
+class="toc-section-number">6.1</span> Terms</a></li>
+</ul></li>
+</ul>
+  </nav>
+
+  <main class="main-content">
+    <header id="title-block-header">
+            <button class="toc-toggle" id="tocToggle" aria-label="Toggle table of contents" aria-expanded="false">
+        &#9776; Table of Contents
+      </button>
+            <h1 class="title">BioSim CZ Architecture</h1>
+      <p class="author">BioSim CZ Team, architecture revision: 2026-06-24</p>
+    </header>
+
+    <div class="download-notice">
+      <strong>Archived stable publication:</strong> 2026-06-24.
+      Architecture revision: 2026-06-24.
+      Downloads:
+      <a href="../../downloads/archive/biosimcz-architecture-2026-06-24.zip">entire architecture ZIP</a>,
+      <a href="../../downloads/archive/biosimcz-metadata-schema-2026-06-24.zip">metadata schema ZIP</a>,
+      and <a href="../../downloads/">archive index</a>.
+    </div>
+<h1 data-number="1" id="biosim-cz-overview"><span
+class="header-section-number">1</span> BioSim CZ overview</h1>
+<p>This section presents the overview and necessary context for the <a
+href="#glossary-biosim-cz">BioSim CZ</a> repository. BioSim CZ is
+intended to provide storage, management, access, and further processing
+for <a href="#glossary-structural-simulation-data">structural simulation
+data</a> concerning 3D structures of biomacromolecules.</p>
+<p>See the <a href="#glossary">Glossary</a> for definitions of domain
+and platform terms.</p>
+<h2 data-number="1.1" id="purpose-and-current-target"><span
+class="header-section-number">1.1</span> Purpose and Current Target</h2>
+<p>This document describes BioSim CZ as a repository for structural
+simulation data. <strong>The current architecture target is the
+prototype</strong>, corresponding to feasibility-study output
+<strong>B_2.1</strong>.</p>
+<p>The prototype architecture focuses on <a
+href="#glossary-molecular-dynamics-md">molecular dynamics (MD)</a> data
+and covers:</p>
+<ul>
+<li>the prototype repository architecture,</li>
+<li>the metadata extraction and <a
+href="#glossary-fairification">FAIRification</a> flow,</li>
+<li>the molecular-dynamics metadata schema.</li>
+</ul>
+<p>The complete-version goals are mentioned only where they provide
+context for the prototype scope or future development direction.</p>
+<h2 data-number="1.2" id="source-basis-and-traceability"><span
+class="header-section-number">1.2</span> Source Basis and
+Traceability</h2>
+<p>The architecture reflects the requirements described in BioSim CZ
+feasibility study. The relevant feasibility-study outputs are:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feasibility-study output</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>B_2.1</strong></td>
+<td>Architecture design of the prototype repository, including the <a
+href="#glossary-metadata-extractors">metadata extractors</a> and
+molecular-dynamics metadata schema. This is the current architecture
+target.</td>
+</tr>
+<tr class="even">
+<td><strong>B_2.2</strong></td>
+<td>Functional prototype of the BioSim CZ repository limited to
+molecular dynamics data.</td>
+</tr>
+<tr class="odd">
+<td><strong>B_2.3</strong></td>
+<td>Architecture design of the complete repository, including metadata
+extractors and all metadata schemas.</td>
+</tr>
+<tr class="even">
+<td><strong>B_2.4</strong></td>
+<td>Complete version of the BioSim CZ repository.</td>
+</tr>
+<tr class="odd">
+<td><strong>B_2.5</strong></td>
+<td>Functional connection of the complete version of the repository with
+MDDB and ELIXIR data resources.</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="1.3" id="project-context"><span
+class="header-section-number">1.3</span> Project Context</h2>
+<p>BioSim CZ is the Czech repository for structural simulation data. It
+is part of the <a href="#glossary-nrp">NRP</a> and is implemented using
+CESNET Invenio.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Repository role</td>
+<td>Czech repository for structural simulation data</td>
+</tr>
+<tr class="even">
+<td>Platform</td>
+<td>Part of the NRP</td>
+</tr>
+<tr class="odd">
+<td>Implementation base</td>
+<td><a href="#glossary-cesnet-invenio">CESNET Invenio</a></td>
+</tr>
+<tr class="even">
+<td>Metadata schema</td>
+<td>Domain-specific BioSim CZ metadata schema extends <a
+href="#glossary-ccmm">CCMM</a></td>
+</tr>
+<tr class="odd">
+<td>Current architecture target</td>
+<td>Prototype for molecular dynamics datasets</td>
+</tr>
+<tr class="even">
+<td>Complete-version goals</td>
+<td>Coarse-grained simulations, predicted structural ensembles, and
+external interoperability</td>
+</tr>
+<tr class="odd">
+<td>Interoperability</td>
+<td>Expected later connection to <a href="#glossary-nmd">NMD</a>, <a
+href="#glossary-bioexcel-mddb--mdposit">BioExcel MDDB / MDposit</a>,
+ELIXIR CZ, <a href="#glossary-biotools">bio.tools</a>, <a
+href="#glossary-pdbe-kb">PDBe-KB</a>, and <a
+href="#glossary-3d-beacons-network">3D-Beacons Network</a></td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="1.4"
+id="prototype-scope-and-development-direction"><span
+class="header-section-number">1.4</span> Prototype Scope and Development
+Direction</h2>
+<p>BioSim CZ is developed in two stages: a molecular-dynamics prototype
+followed by a complete version with broader data coverage and external
+integrations.</p>
+<h3 data-number="1.4.1" id="current-prototype-scope"><span
+class="header-section-number">1.4.1</span> Current Prototype Scope</h3>
+<p>The prototype is the current architecture target. It is limited to MD
+data and covers:</p>
+<ul>
+<li>creation of a dataset,</li>
+<li>upload, storage, publication, discovery, download, and sharing of MD
+data through the standard CESNET Invenio publication, access, and
+download behaviour,</li>
+<li>repository-side metadata processing for MD data:
+<ul>
+<li>metadata extraction from GROMACS molecular-dynamics data,</li>
+<li>normalization and conversion of extracted metadata into an
+engine-agnostic MD metadata schema,</li>
+<li>basic validation needed for metadata extraction, metadata mapping,
+and user review.</li>
+</ul></li>
+<li>assignment and display of a human-readable BioSim CZ accession
+identifier for each published dataset,</li>
+<li><a href="#glossary-doi">DOI</a> registration support in a test
+mode,</li>
+<li>metadata-based discovery by text search, metadata filters, <a
+href="#glossary-pdb-id">PDB ID</a>, and <a
+href="#glossary-uniprot-id">UniProt ID</a>.</li>
+</ul>
+<h3 data-number="1.4.2" id="complete-version-scope"><span
+class="header-section-number">1.4.2</span> Complete-Version Scope</h3>
+<p>The prototype does not target the full BioSim CZ scope. The following
+areas are the complete-version <em>goals</em>:</p>
+<ul>
+<li>support for <a
+href="#glossary-coarse-grained-cg-simulation">coarse-grained
+simulations</a>,</li>
+<li>support for <a
+href="#glossary-predicted-structural-ensemble">predicted structural
+ensembles</a>,</li>
+<li>functional MDDB integration,</li>
+<li>ELIXIR CZ, bio.tools, PDBe-KB, and 3D-Beacons integration,</li>
+<li>structure-based search using uploaded <a
+href="#glossary-pdb-format">PDB format</a> or <a
+href="#glossary-mmcif">mmCIF</a> structures,</li>
+<li>the system of user roles and access rights,</li>
+<li>DOI registration support,</li>
+<li>external dataset import from repositories such as Zenodo, Figshare,
+OSF, or similar sources,</li>
+<li>downstream computational processing and analysis services for
+simulation data,</li>
+<li>advanced scientific consistency checking across simulation
+data.</li>
+</ul>
+<p>Please do note that the complete-version scope is a directional
+target, not a prototype commitment. It positions the intended future
+role of BioSim CZ, but individual capabilities may change after
+prototype validation and later project decisions.</p>
+<h2 data-number="1.5" id="interoperability-context"><span
+class="header-section-number">1.5</span> Interoperability Context</h2>
+<p>BioSim CZ is planned as the Czech national node in the BioExcel MDDB
+/ MDposit context. It is also expected to be visible through ELIXIR CZ
+and bio.tools, with later connections to biomolecular-structure
+resources such as PDBe-KB and the 3D-Beacons Network.</p>
+<h2 data-number="1.6" id="basic-information"><span
+class="header-section-number">1.6</span> Basic Information</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Name</td>
+<td>BioSim CZ</td>
+</tr>
+<tr class="even">
+<td>Repository System</td>
+<td>CESNET Invenio</td>
+</tr>
+<tr class="odd">
+<td>Founder</td>
+<td>Masaryk University</td>
+</tr>
+<tr class="even">
+<td>Development Environment</td>
+<td><a href="https://dev.biosim.cz">https://dev.biosim.cz</a></td>
+</tr>
+<tr class="odd">
+<td>Production Environment</td>
+<td><a href="https://biosim.cz">https://biosim.cz</a></td>
+</tr>
+<tr class="even">
+<td>Source Code Repository</td>
+<td><a
+href="https://github.com/orgs/NRP-CZ/biosimcz">https://github.com/orgs/NRP-CZ/biosimcz</a></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the provided URLs are reserved but might not be active as
+an instance of BioSim CZ is not deployed yet.</p>
+<h2 data-number="1.7" id="team-members"><span
+class="header-section-number">1.7</span> Team Members</h2>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 21%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Name</th>
+<th>Email</th>
+<th>Organization</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Project Lead</td>
+<td>Radka Svobodová</td>
+<td>radka.svobodova@ceitec.muni.cz</td>
+<td>Masaryk University</td>
+</tr>
+<tr class="even">
+<td>Data Curator</td>
+<td>Vladimír Horský</td>
+<td>vladimir.horsky@mail.muni.cz</td>
+<td>Masaryk University</td>
+</tr>
+<tr class="odd">
+<td>Architect</td>
+<td>Tomáš Raček</td>
+<td>tomas.racek@muni.cz</td>
+<td>Masaryk University</td>
+</tr>
+<tr class="even">
+<td>Interoperability expert</td>
+<td>Adrián Rošinec</td>
+<td>adrian@muni.cz</td>
+<td>Masaryk University</td>
+</tr>
+<tr class="odd">
+<td>Domain expert</td>
+<td>Karel Berka</td>
+<td>karel.berka@upol.cz</td>
+<td>Palacký University</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="2" id="biosim-cz-prototype-architecture"><span
+class="header-section-number">2</span> BioSim CZ Prototype
+Architecture</h1>
+<p>This section describes the architecture of the BioSim CZ
+prototype.</p>
+<h2 data-number="2.1" id="prototype-high-level-architecture"><span
+class="header-section-number">2.1</span> Prototype High-Level
+Architecture</h2>
+<p>The BioSim CZ prototype is implemented as a domain-specific extension
+of the <a href="#glossary-nrp">NRP</a>. The platform provides the common
+repository capabilities, while BioSim CZ adds the domain model,
+user-facing metadata workflow, and molecular dynamics-specific metadata
+extraction.</p>
+<pre class="mermaid"><code>flowchart TB
+    Platform[&quot;CESNET Invenio&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Base repository functionality, records, files, identifiers, DOI registration support, authentication, persistence, and common metadata infrastructure, including CCMM&lt;/span&gt;&quot;]
+
+    subgraph BioSim[BioSim CZ domain extension]
+        DataModel[Data model] ~~~  MetadataModel[Metadata model] ~~~ Extraction[&quot;Metadata extractors&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Initial extraction from GROMACS inputs into the common MD metadata model&lt;/span&gt;&quot;]
+        UI[Prototype UI]
+        UI --&gt; MainPage[Main page]
+        UI --&gt; DepositForms[Deposit forms]
+        UI --&gt; Browse[Browse datasets page]
+        UI --&gt; Detail[Dataset detail page]
+    end
+    Platform --&gt; BioSim</code></pre>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer / Component</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CESNET Invenio</td>
+<td>Provides the base repository functionality, including record
+management, publication lifecycle, persistence, authentication
+integration, files, file download, identifiers, DOI registration
+support, and common metadata infrastructure, including <a
+href="#glossary-ccmm">CCMM</a>.</td>
+</tr>
+<tr class="even">
+<td><a href="#glossary-biosim-cz-domain-extension">BioSim CZ domain
+extension</a></td>
+<td>Adds BioSim CZ-specific behaviour and configuration on top of the
+shared platform.</td>
+</tr>
+<tr class="odd">
+<td>Data model</td>
+<td>Defines the BioSim CZ data model for molecular dynamics data.</td>
+</tr>
+<tr class="even">
+<td>Metadata model</td>
+<td>Defines the BioSim CZ metadata model for molecular dynamics
+data.</td>
+</tr>
+<tr class="odd">
+<td>Prototype UI</td>
+<td>Provides BioSim CZ-specific presentation, dataset views, and
+deposition forms.</td>
+</tr>
+<tr class="even">
+<td><a href="#glossary-metadata-extractors">Metadata extractors</a></td>
+<td>Extract metadata from deposited molecular dynamics files, with the
+prototype implementation limited to GROMACS inputs, and map extracted
+values into the common BioSim CZ molecular-dynamics metadata model.
+Other MD engines should later be able to map into the same model through
+source-backed extractor/adaptor extensions.</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="2.2" id="data-and-metadata-model"><span
+class="header-section-number">2.2</span> Data and Metadata Model</h2>
+<p>BioSim CZ separates the data model from the metadata model. The data
+model defines the main repository entities and their relationships. The
+metadata model defines descriptive fields attached to those
+entities.</p>
+<p>The proposed data model relies on interlinked, also referred to as
+hierarchical, records in <a href="#glossary-cesnet-invenio">CESNET
+Invenio</a>. This capability is expected to be implemented before the
+prototype release.</p>
+<h3 data-number="2.2.1" id="conceptual-data-model"><span
+class="header-section-number">2.2.1</span> Conceptual Data Model</h3>
+<p>BioSim CZ uses <a href="#glossary-study"><code>Study</code></a> as
+the top-level repository record. A Study represents one coherent
+deposited dataset and is the main unit of publication, search, citation,
+and repository lifecycle.</p>
+<p>A Study contains one or more <a
+href="#glossary-experiment"><code>Experiments</code></a>. An Experiment
+represents a concrete computational setup or run within the Study.
+Experiments are lifecycle-bound to the parent Study, are published
+together with it, and are not independently citable.</p>
+<p>Files are associated with individual Experiments, not with the Study
+as a whole. This allows each Experiment to have its own input files,
+output files, software context, and extracted metadata.</p>
+<pre class="mermaid"><code>flowchart LR
+    Study --&gt;| 1..N| Experiment
+    Experiment --&gt;| 1..N| File</code></pre>
+<p>The interlinked-record structure defines the persistence boundary:
+the Study owns the publication lifecycle, while each Experiment owns its
+associated files and extracted metadata within that Study.</p>
+<h3 data-number="2.2.2" id="conceptual-metadata-model"><span
+class="header-section-number">2.2.2</span> Conceptual Metadata
+Model</h3>
+<p>The BioSim CZ metadata model is layered. Common repository metadata
+is provided by <a href="#glossary-ccmm">CCMM</a>. BioSim CZ adds domain
+metadata describing the studied object and study-type-specific metadata
+for simulation or ensemble records.</p>
+<p>Each Study has a <code>type</code>:</p>
+<ul>
+<li><code>MD</code> - <a
+href="#glossary-molecular-dynamics-md">molecular dynamics</a> study</li>
+<li><code>CG</code> - <a
+href="#glossary-coarse-grained-cg-simulation">coarse-grained (CG)
+simulation</a> study (not available in the prototype)</li>
+<li><code>ensemble</code> - <a
+href="#glossary-predicted-structural-ensemble">predicted or structural
+ensemble</a> study (not available in the prototype)</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    StudyMetadata[Study metadata] --&gt; Generic[&quot;CCMM metadata&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;(such as title, creators, description, license, funding, and related identifiers)&lt;/span&gt;&quot;]
+    StudyMetadata --&gt; StudiedObject[&quot;Studied object metadata&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Description of the molecular or structural object being studied &lt;br /&gt; (such as protein, complex, ligand, using studied-object identifiers)&lt;/span&gt;&quot;]
+    StudyMetadata --&gt; StudyTypeEnum[&quot;Study type&lt;br/&gt;&lt;b&gt;MD&lt;/b&gt;, &lt;b&gt;CG&lt;/b&gt;, &lt;b&gt;ensemble&lt;/b&gt;&quot;]
+    StudyMetadata --&gt; StudySpecific[Study-type-specific metadata]
+    StudySpecific --&gt; Choice{one of}
+    Choice --&gt;|MD| MD[MD metadata]
+    Choice --&gt;|CG| CG[CG metadata]
+    Choice --&gt;|ensemble| Ensemble[Ensemble metadata]</code></pre>
+<p>Individual Experiments within a Study have their metadata
+automatically extracted from the uploaded data (except for optional
+user-provided name and description).</p>
+<pre class="mermaid"><code>flowchart LR
+    ExperimentMetadata[Experiment metadata] --&gt; Name[Name and description]
+    ExperimentMetadata --&gt; Files[Files]
+    ExperimentMetadata --&gt; Extracted[&quot;Extracted metadata&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Specific to the Study type&lt;/span&gt;&quot;]</code></pre>
+<h3 data-number="2.2.3" id="md-engine-scope"><span
+class="header-section-number">2.2.3</span> MD Engine Scope</h3>
+<p>The BioSim CZ MD metadata model is engine-agnostic: it stores common
+<a href="#glossary-molecular-dynamics-md">molecular-dynamics</a>
+concepts rather than fields tied to one simulation package.</p>
+<p>In the prototype, automatic metadata extraction is limited to <a
+href="#glossary-gromacs">GROMACS</a>. Other MD engines, such as <a
+href="#glossary-amber">AMBER</a>, <a href="#glossary-namd">NAMD</a>, <a
+href="#glossary-openmm">OpenMM</a>, or <a
+href="#glossary-charmm">CHARMM</a>, remain future work. They should be
+supported through engine-specific extractors that populate the shared
+BioSim CZ MD metadata model, once their file requirements, extractable
+metadata, validation rules, and field mappings are defined.</p>
+<h2 data-number="2.3" id="study-identifiers-and-doi-registration"><span
+class="header-section-number">2.3</span> Study Identifiers and DOI
+Registration</h2>
+<p>The prototype distinguishes platform-level technical identifiers from
+BioSim CZ accession identifiers. CESNET Invenio may maintain technical
+record identifiers for persistence, routing, and internal record
+management. These technical identifiers are not the primary human-facing
+citation identifiers in the BioSim CZ prototype.</p>
+<p>Each published <code>Study</code> receives a human-readable <a
+href="#glossary-biosim-cz-accession-identifier">BioSim CZ accession
+identifier</a>. The accession identifier is stable within BioSim CZ and
+is displayed in search results, dataset detail pages, exports, and
+citation guidance. The prototype uses this accession identifier as the
+local user-facing <a href="#glossary-persistent-identifier">persistent
+identifier</a> for the citable Study record.</p>
+<p>For publication use, the accession identifier should be cited
+together with the stable BioSim CZ landing-page URL of the Study. The
+landing page is the resolvable access point for the dataset. A suggested
+resolution pattern is
+<code>https://biosim.cz/records/{accession}</code>, for example
+<code>https://biosim.cz/records/MD_000001</code>.</p>
+<p>The recommended accession format is:</p>
+<ul>
+<li><code>MD_000001</code> for molecular dynamics Studies,</li>
+<li><code>CG_000001</code> for coarse-grained simulation Studies,</li>
+<li><code>EN_000001</code> for ensemble Studies.</li>
+</ul>
+<p>The prototype only assigns <code>MD_*</code> identifiers because only
+molecular dynamics Studies are supported.</p>
+<p>DOI registration is provided by CESNET Invenio and does not require a
+separate BioSim CZ DOI provider integration. In the prototype, DOI
+registration is exercised only in the platform sandbox/test setup, so no
+production DOIs are registered. When DOI registration is enabled for
+testing, DOI records should resolve to the stable BioSim CZ landing page
+of the Study, using the same landing-page pattern as the accession
+identifier, for example
+<code>https://biosim.cz/records/MD_000001</code>.</p>
+<p>Experiments may be referenced by subordinate internal identifiers
+scoped to the parent Study, for example <code>MD_000001-EXP_0001</code>.
+Experiment identifiers are not independent citable persistent
+identifiers and do not receive independent DOIs in the prototype; they
+identify nested Experiments inside the citable Study.</p>
+<h2 data-number="2.4" id="prototype-fairification"><span
+class="header-section-number">2.4</span> Prototype FAIRification</h2>
+<p>In the prototype, <a href="#glossary-fairification">FAIRification</a>
+means the repository and metadata workflow that improves alignment with
+<a href="#glossary-fair">FAIR</a> principles for molecular-dynamics
+Studies. It is not a separate component and does not imply production
+DOI registration or complete scientific consistency checking.</p>
+<p>At the architecture level, prototype FAIRification is provided by the
+combination of:</p>
+<ul>
+<li>the Study as the citable repository record;</li>
+<li>the BioSim CZ accession identifier assigned to each published Study,
+with DOI registration exercised through CESNET Invenio in sandbox/test
+mode;</li>
+<li>CCMM generic metadata, including creators, licencing, or
+funding;</li>
+<li>BioSim CZ Study and Experiment metadata for molecular-dynamics
+data;</li>
+<li>studied-object identifiers such as <a href="#glossary-pdb-id">PDB
+ID</a> and <a href="#glossary-uniprot-id">UniProt ID</a> where
+provided;</li>
+<li>metadata extraction from GROMACS inputs into the common MD metadata
+model;</li>
+<li>controlled vocabularies and documented unit normalization in the MD
+metadata model;</li>
+<li>depositor review of extracted and entered metadata before
+publication.</li>
+</ul>
+<p>These mechanisms support findability through identifiers and indexed
+metadata, accessibility through repository publication and file
+download, interoperability through shared schemas and vocabularies, and
+reusability through provenance, license metadata, and reviewed extracted
+metadata.</p>
+<h2 data-number="2.5" id="user-workflows"><span
+class="header-section-number">2.5</span> User Workflows</h2>
+<p>BioSim CZ supports two primary user scenarios: depositing a dataset
+and discovering an existing dataset.</p>
+<h3 data-number="2.5.1" id="deposition-workflow"><span
+class="header-section-number">2.5.1</span> Deposition Workflow</h3>
+<p>A user deposits a <a href="#glossary-molecular-dynamics-md">molecular
+dynamics</a> dataset:</p>
+<ol type="1">
+<li>Create a new Study record.</li>
+<li>Enter generic Study metadata (title, creators, description, license,
+funding, related identifiers).</li>
+<li>Enter studied-object metadata (e.g., <a href="#glossary-pdb-id">PDB
+ID</a> or <a href="#glossary-uniprot-id">UniProt ID</a>).</li>
+<li>Select the study type <code>MD</code>. (<code>CG</code> and
+<code>ensemble</code> are disabled in the prototype.)</li>
+<li>Add one or more Experiments to the Study.</li>
+<li>Upload files to each Experiment.</li>
+<li>Trigger automatic metadata extraction from deposited files.</li>
+<li>Review and submit the Study for publication.</li>
+</ol>
+<h3 data-number="2.5.2" id="discovery-workflow"><span
+class="header-section-number">2.5.2</span> Discovery Workflow</h3>
+<p>A user finds and accesses a published MD dataset:</p>
+<ol type="1">
+<li>Search or browse published Studies by text search, Study and
+Experiment metadata filters, accession identifier, or studied-object
+identifier (e.g., <a href="#glossary-pdb-id">PDB ID</a>, or <a
+href="#glossary-uniprot-id">UniProt ID</a>).</li>
+<li>Inspect Study metadata (e.g., studied objects or study type).</li>
+<li>Open a Study to view its detail.</li>
+<li>Browse Experiments within the Study.</li>
+<li>Inspect Experiment metadata (e.g., simulation setup or thermodynamic
+conditions).</li>
+<li>Download files associated with an Experiment.</li>
+</ol>
+<h2 data-number="2.6" id="prototype-verification-scope"><span
+class="header-section-number">2.6</span> Prototype Verification
+Scope</h2>
+<p>Prototype verification demonstrates that the <a
+href="#deposition-workflow">deposition</a> and <a
+href="#discovery-workflow">discovery</a> workflows described above can
+be exercised with representative deposited data. The verification
+dataset scope includes representative <a
+href="#glossary-molecular-dynamics-md">molecular dynamics</a> datasets,
+with automatic extraction initially limited to <a
+href="#glossary-gromacs">GROMACS</a> inputs. Where available, test data
+should include data from the involved and collaborating institutions
+named in the feasibility study. Verification should include successful
+workflow execution and expected metadata-extraction warning or failure
+cases.</p>
+<h1 data-number="3" id="metadata-model"><span
+class="header-section-number">3</span> BioSim CZ Prototype Metadata
+Model</h1>
+<p>The BioSim CZ repository’s records use a custom BioSim CZ metadata
+model, which layers domain-specific metadata on top of <a
+href="#glossary-ccmm">CCMM</a>. Generic metadata, including title,
+creators, contributors, contact person, description, license, funding,
+and related identifiers, are provided by CCMM and are not repeated here.
+This document describes only the BioSim CZ extensions.</p>
+<p><a href="#glossary-molsim">MOLSIM</a>, an ontology for describing
+atomistic biomolecular simulations, is used as a terminology-alignment
+and traceability source for molecular-simulation concepts. Where
+applicable, selected schema fields and controlled-vocabulary values are
+mapped to MOLSIM concepts so that extraction decisions, user-facing
+terms, and future interoperability work remain traceable. The mapping is
+done through the comments in respective YAML files.</p>
+<p>The complete prototype metadata schema, including all YAML schema
+files and controlled vocabularies described in this chapter, is
+available for download at the top of this document.</p>
+<h2 data-number="3.1" id="study-level-metadata"><span
+class="header-section-number">3.1</span> Study-level metadata</h2>
+<p>A <a href="#glossary-study">Study</a> is the top-level citable unit.
+In addition to CCMM generic metadata, it carries:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Cardinality</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>study_type</code></td>
+<td>1</td>
+<td>Type of study. Discriminator for the <code>metadata</code> field.
+Allowed values: <code>MD</code>, <code>CG</code>, <code>ensemble</code>.
+Prototype restricts this to <code>MD</code>.</td>
+<td>User-selected</td>
+</tr>
+<tr class="even">
+<td><code>studied_objects</code></td>
+<td>1..N</td>
+<td>Identifiers describing the molecular or structural object being
+studied.</td>
+<td>User-provided</td>
+</tr>
+<tr class="odd">
+<td><code>metadata</code></td>
+<td>1</td>
+<td>Study-type-specific metadata describing the Study as a whole.
+Prototype uses the <code>MD</code> variant.</td>
+<td>User-provided or user-selected</td>
+</tr>
+</tbody>
+</table>
+<p>Schema: <a
+href="metadata/schemas/study/study.yaml"><code>metadata/schemas/study/study.yaml</code></a></p>
+<h3 data-number="3.1.1" id="studied_objects"><span
+class="header-section-number">3.1.1</span>
+<code>studied_objects</code></h3>
+<p>An array of study object identifiers. Each entry declares its
+identifier type using <code>id_type</code>, provides the identifier
+value, and may include an optional description.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Cardinality</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id_type</code></td>
+<td>1</td>
+<td>Discriminator. Enum: <code>pdb</code>, <code>uniprot</code>,
+<code>alphafold</code>, <code>other</code>.</td>
+</tr>
+<tr class="even">
+<td><code>identifier</code></td>
+<td>1</td>
+<td>The identifier value. Expected format depends on
+<code>id_type</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>description</code></td>
+<td>0..1</td>
+<td>Free-text description of the object in this study context.</td>
+</tr>
+</tbody>
+</table>
+<p>Variant details:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><code>id_type</code></th>
+<th>Expected identifier format</th>
+<th>MOLSIM class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#glossary-pdb-id">PDB ID</a></td>
+<td><code>pdb</code></td>
+<td><code>^([0-9][a-zA-Z0-9]{3}\|pdb_[a-z0-9]{8})$</code></td>
+<td><code>MOLSIM_000686</code></td>
+</tr>
+<tr class="even">
+<td><a href="#glossary-uniprot-id">UniProt ID</a></td>
+<td><code>uniprot</code></td>
+<td><code>^[OPQ][0-9][A-Z0-9]{3}[0-9]\|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$</code></td>
+<td><code>MOLSIM_000687</code></td>
+</tr>
+<tr class="odd">
+<td><a href="#glossary-alphafold-db-id">AlphaFold DB ID</a></td>
+<td><code>alphafold</code></td>
+<td><code>^AF-[A-Z0-9]+-F[0-9]+$</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Other</td>
+<td><code>other</code></td>
+<td>None (free keyword)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="3.1.2" id="type-specific-metadata"><span
+class="header-section-number">3.1.2</span> Type-specific
+<code>metadata</code></h3>
+<p>The <code>metadata</code> object records fields that describe the
+Study as a whole and depend on <code>study_type</code>. In particular,
+they classify the deposited dataset and its intended methodological
+framing, but do not duplicate concrete run parameters extracted from
+files.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Study type</th>
+<th><code>study_type</code></th>
+<th>Schema file</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MD</td>
+<td><code>MD</code></td>
+<td><a
+href="metadata/schemas/study/types/study_md.yaml"><code>study/types/study_md.yaml</code></a></td>
+<td>Defined in prototype</td>
+</tr>
+<tr class="even">
+<td>Coarse-grained</td>
+<td><code>CG</code></td>
+<td><a
+href="metadata/schemas/study/types/study_cg.yaml"><code>study/types/study_cg.yaml</code></a></td>
+<td>Placeholder (out of scope)</td>
+</tr>
+<tr class="odd">
+<td>Ensemble</td>
+<td><code>ensemble</code></td>
+<td><a
+href="metadata/schemas/study/types/study_ensemble.yaml"><code>study/types/study_ensemble.yaml</code></a></td>
+<td>Placeholder (out of scope)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="3.1.3" id="md-study-metadata"><span
+class="header-section-number">3.1.3</span> MD Study metadata</h3>
+<p>The MD Study metadata describes dataset-level properties that are
+meaningful for the citable Study as a collection of experiments. It
+captures how the deposited MD dataset is organized, what methodological
+intent it represents, and how that intent should be presented for
+discovery and reuse. It does not store software version, force field,
+thermodynamic state, timestep, simulation length, system size, files, or
+extraction provenance; those remain <a
+href="#glossary-experiment">Experiment</a> metadata.</p>
+<p>These Study-level fields are relevant because a citable Study can
+contain one run, several replicas, a parameter sweep, or a workflow
+whose meaning is not fully described by individual extracted run
+parameters.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Cardinality</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>md_dataset_kind</code></td>
+<td>1</td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/dataset_kind.yaml"><code>vocabularies/md/dataset_kind.yaml</code></a></td>
+<td>Dataset-level classification (e.g, single trajectory, replica set,
+or parameter sweep).</td>
+</tr>
+<tr class="even">
+<td><code>sampling_strategy</code></td>
+<td>0..1</td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/sampling_strategy.yaml"><code>vocabularies/md/sampling_strategy.yaml</code></a></td>
+<td>High-level sampling strategy when the Study has one coherent
+methodological intent (e.g., conventional MD, enhanced sampling, replica
+exchange, or umbrella sampling).</td>
+</tr>
+<tr class="odd">
+<td><code>study_protocol_summary</code></td>
+<td>0..1</td>
+<td><code>fulltext</code></td>
+<td>Concise free-text summary of the protocol when the Study represents
+one coherent workflow.</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="3.2" id="experiment-level-metadata"><span
+class="header-section-number">3.2</span> Experiment-level metadata</h2>
+<p>An <a href="#glossary-experiment">Experiment</a> is a concrete
+computational setup or run nested within a Study. Experiment metadata is
+divided into fields common to all experiments and fields specific to the
+experiment type.</p>
+<p>Schema: <a
+href="metadata/schemas/experiment/experiment.yaml"><code>experiment/experiment.yaml</code></a></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Cardinality</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>1</td>
+<td>Short label for the experiment (e.g., <code>replica_1</code>,
+<code>NPT production</code>).</td>
+<td>User-provided</td>
+</tr>
+<tr class="even">
+<td><code>description</code></td>
+<td>0..1</td>
+<td>Free-text description of the experiment.</td>
+<td>User-provided</td>
+</tr>
+<tr class="odd">
+<td><code>extraction_provenance</code></td>
+<td>0..1</td>
+<td>Latest automatic metadata-extraction result for this Experiment.
+Detailed semantics are defined by the extractor workflow.</td>
+<td>Auto-generated</td>
+</tr>
+<tr class="even">
+<td><code>files</code></td>
+<td>1..N</td>
+<td>Files associated with this experiment, annotated with a semantic
+type and an optional description.</td>
+<td>User-provided</td>
+</tr>
+<tr class="odd">
+<td><code>metadata</code></td>
+<td>1</td>
+<td>Type-specific experiment metadata. The allowed type is constrained
+by the parent Study’s <code>study_type</code>.</td>
+<td>Auto-extracted</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>extraction_provenance</code> object is stored on the
+Experiment because automatic extraction produces Experiment metadata.
+Its schema is separated from the Experiment envelope in <a
+href="metadata/schemas/experiment/definitions/extraction_provenance.yaml"><code>experiment/definitions/extraction_provenance.yaml</code></a>.
+It is present only when automatic extraction has been attempted.
+Detailed workflow semantics, including extraction roles, statuses,
+messages, and rerun behavior, are defined in <a
+href="#extraction-provenance">Metadata extractors</a>.</p>
+<h3 data-number="3.2.1" id="files-files"><span
+class="header-section-number">3.2.1</span> Files
+(<code>files</code>)</h3>
+<p>Files are attached to individual Experiments. The <code>files</code>
+array records the Experiment-level file attachments and assigns each
+file a domain semantic type. The semantic type may be suggested by the
+deposit workflow and then confirmed or corrected by the depositor;
+extraction-specific source-file roles are recorded separately in
+extraction provenance. This keeps input files, output files, extraction
+sources, and extracted metadata under the same Experiment boundary.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Cardinality</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>file_key</code></td>
+<td>1</td>
+<td><code>keyword</code></td>
+<td>Filename or repository key of the file attached to the
+Experiment.</td>
+</tr>
+<tr class="even">
+<td><code>semantic_type</code></td>
+<td>1</td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/file_semantic_type.yaml"><code>vocabularies/file_semantic_type.yaml</code></a></td>
+<td>Domain classification drawn from the <code>file_semantic_type</code>
+vocabulary (e.g., <code>run_input</code>, <code>parameter_file</code>,
+<code>trajectory</code>, <code>topology</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>description</code></td>
+<td>0..1</td>
+<td><code>fulltext</code></td>
+<td>Optional free-text note about this file in the experiment
+context.</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="3.2.2" id="type-specific-metadata-1"><span
+class="header-section-number">3.2.2</span> Type-specific
+<code>metadata</code></h3>
+<p>The <code>metadata</code> object declares its experiment type using
+<code>experiment_type</code>. The selected type determines which
+additional fields are expected.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Experiment type</th>
+<th><code>experiment_type</code></th>
+<th>Schema file</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MD</td>
+<td><code>MD</code></td>
+<td><a
+href="metadata/schemas/experiment/types/experiment_md.yaml"><code>schemas/experiment/types/experiment_md.yaml</code></a></td>
+<td>Defined in prototype</td>
+</tr>
+<tr class="even">
+<td>Coarse-grained</td>
+<td><code>CG</code></td>
+<td><a
+href="metadata/schemas/experiment/types/experiment_cg.yaml"><code>schemas/experiment/types/experiment_cg.yaml</code></a></td>
+<td>Placeholder (out of scope)</td>
+</tr>
+<tr class="odd">
+<td>Ensemble</td>
+<td><code>ensemble</code></td>
+<td><a
+href="metadata/schemas/experiment/types/experiment_ensemble.yaml"><code>schemas/experiment/types/experiment_ensemble.yaml</code></a></td>
+<td>Placeholder (out of scope)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the value of <code>experiment_type</code> must be
+compatible with the parent Study’s <code>study_type</code>. A Study
+typed <code>MD</code> may only contain Experiments with
+<code>experiment_type: MD</code>.</p>
+<h3 data-number="3.2.3" id="md-experiment-metadata"><span
+class="header-section-number">3.2.3</span> MD Experiment metadata</h3>
+<p>The MD experiment type groups fields into four logical sections:</p>
+<ul>
+<li>Simulation Setup</li>
+<li>Thermodynamic State</li>
+<li>Temporal Extent</li>
+<li>System</li>
+</ul>
+<p>Note that these sections organize the metadata; they are not separate
+records.</p>
+<p>The MD Experiment metadata schema is engine-agnostic. The
+<code>software</code> field identifies the simulation engine, but the
+schema stores common MD concepts such as force field, timestep, number
+of steps, thermodynamic state, and system size. Prototype automatic
+extraction is currently specified only for <a
+href="#glossary-gromacs">GROMACS</a>.</p>
+<p>Fields populated by automatic extraction are treated as
+extractor-derived metadata and are reviewed by the depositor before
+submission.</p>
+<p>Extractor-derived MD fields are optional in the common MD Experiment
+schema. Missing values mean that the source value is absent, unreadable,
+unknown, ambiguous, or not applicable. Missing values are reported
+through extraction messages and reduce metadata completeness, but do not
+by themselves block publication.</p>
+<p>Schema: <a
+href="metadata/schemas/experiment/types/experiment_md.yaml"><code>schemas/experiment/types/experiment_md.yaml</code></a></p>
+<p>Note that all numeric values are stored in standard MD units (K, bar,
+ns, fs, nm/deg).</p>
+<p>Controlled-vocabulary fields store BioSim CZ vocabulary identifiers.
+The current file and MD vocabularies include <code>other</code> for
+known values outside the curated term list; unavailable, unknown, or
+ambiguous extractor values are left empty and reported through
+extraction messages.</p>
+<h4 data-number="3.2.3.1" id="simulation-setup-simulation_setup"><span
+class="header-section-number">3.2.3.1</span> Simulation Setup
+(<code>simulation_setup</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>MOLSIM parent class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>software</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/software.yaml"><code>vocabularies/md/software.yaml</code></a></td>
+<td>MD engine name represented in the common MD schema, for example <a
+href="#glossary-gromacs">GROMACS</a> or <a
+href="#glossary-amber">AMBER</a>. Prototype extraction is specified only
+for GROMACS.</td>
+<td><code>MOLSIM_000160</code> (molecular dynamics engine)</td>
+</tr>
+<tr class="even">
+<td><code>software_version</code></td>
+<td><code>keyword</code></td>
+<td>Version of the simulation software.</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>force_field</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/force_field.yaml"><code>vocabularies/md/force_field.yaml</code></a></td>
+<td>Force field name (e.g., CHARMM36, AMBER99SB-ILDN).</td>
+<td><code>MOLSIM_000007</code> (force field)</td>
+</tr>
+<tr class="even">
+<td><code>water_model</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/water_model.yaml"><code>vocabularies/md/water_model.yaml</code></a></td>
+<td>Water model (e.g., TIP3P, SPC/E).</td>
+<td><code>MOLSIM_000067</code> (water model)</td>
+</tr>
+<tr class="odd">
+<td><code>integrator</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/integrator.yaml"><code>vocabularies/md/integrator.yaml</code></a></td>
+<td>Integrator algorithm (e.g., leap-frog, Verlet).</td>
+<td><code>MOLSIM_001691</code> (integration algorithm)</td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="3.2.3.2"
+id="thermodynamic-state-thermodynamic_state"><span
+class="header-section-number">3.2.3.2</span> Thermodynamic State
+(<code>thermodynamic_state</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>MOLSIM parent class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ensemble</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/ensemble.yaml"><code>vocabularies/md/ensemble.yaml</code></a></td>
+<td>Thermodynamic ensemble (NVT, NPT, NVE, …).</td>
+<td><code>MOLSIM_000195</code> (ensemble)</td>
+</tr>
+<tr class="even">
+<td><code>reference_temperature</code></td>
+<td><code>double</code></td>
+<td>Reference or target temperature in Kelvin when available from the
+simulation setup.</td>
+<td><code>MOLSIM_001175</code> (target temperature)</td>
+</tr>
+<tr class="odd">
+<td><code>reference_pressure</code></td>
+<td><code>double</code></td>
+<td>Reference or target pressure in bar when applicable to the ensemble
+or pressure-coupling setup.</td>
+<td><code>MOLSIM_001181</code> (target pressure)</td>
+</tr>
+<tr class="even">
+<td><code>thermostat</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/thermostat.yaml"><code>vocabularies/md/thermostat.yaml</code></a></td>
+<td>Temperature coupling algorithm (e.g., V-rescale, Nosé-Hoover).</td>
+<td><code>MOLSIM_000038</code> (thermostat algorithm)</td>
+</tr>
+<tr class="odd">
+<td><code>barostat</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/barostat.yaml"><code>vocabularies/md/barostat.yaml</code></a></td>
+<td>Pressure coupling algorithm (e.g., Parrinello-Rahman,
+Berendsen).</td>
+<td><code>MOLSIM_000039</code> (barostat algorithm)</td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="3.2.3.3" id="temporal-extent-temporal_extent"><span
+class="header-section-number">3.2.3.3</span> Temporal Extent
+(<code>temporal_extent</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>MOLSIM parent class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>simulation_length</code></td>
+<td><code>double</code></td>
+<td>Total simulated time in nanoseconds.</td>
+<td><code>MOLSIM_001167</code> (simulation duration)</td>
+</tr>
+<tr class="even">
+<td><code>timestep</code></td>
+<td><code>double</code></td>
+<td>Integration timestep in femtoseconds.</td>
+<td><code>MOLSIM_001164</code> (simulation parameter)</td>
+</tr>
+<tr class="odd">
+<td><code>number_of_steps</code></td>
+<td><code>long</code></td>
+<td>Total number of integration steps.</td>
+<td><code>MOLSIM_001167</code> (simulation duration)</td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="3.2.3.4" id="system-system"><span
+class="header-section-number">3.2.3.4</span> System
+(<code>system</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>MOLSIM parent class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>total_atoms</code></td>
+<td><code>long</code></td>
+<td>Total number of atoms in the simulated system.</td>
+<td><code>MOLSIM_001122</code> (number of total atoms)</td>
+</tr>
+<tr class="even">
+<td><code>box_type</code></td>
+<td><code>vocabulary</code> <a
+href="metadata/vocabularies/md/box_type.yaml"><code>vocabularies/md/box_type.yaml</code></a></td>
+<td>Simulation box geometry.</td>
+<td><code>MOLSIM_000032</code> (box type)</td>
+</tr>
+<tr class="odd">
+<td><code>box_dimensions</code></td>
+<td><code>array[double]</code></td>
+<td>Box lengths (a, b, c) and, if applicable, angles (alpha, beta,
+gamma). 3–6 items.</td>
+<td><code>MOLSIM_001213</code> (periodic box dimensions)</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="4" id="prototype-metadata-extractors"><span
+class="header-section-number">4</span> BioSim CZ Prototype Metadata
+Extractors</h1>
+<p>The prototype metadata extractor turns uploaded <a
+href="#glossary-gromacs">GROMACS</a> files for an <a
+href="#glossary-experiment">Experiment</a> into <a
+href="#glossary-biosim-cz">BioSim CZ</a> <a
+href="#glossary-molecular-dynamics-md">molecular-dynamics</a> Experiment
+metadata.</p>
+<p>The extractor scope is limited to technical simulation metadata that
+can be mapped to the <a href="#metadata-model">prototype metadata
+model</a>. Study-level descriptive metadata, such as title, creators,
+publication information, and studied-object identifiers, remain part of
+the Study metadata workflow and are not the primary responsibility of
+the extractor.</p>
+<h2 data-number="4.1" id="architectural-position"><span
+class="header-section-number">4.1</span> Architectural Position</h2>
+<p>The extraction component sits between Experiment file upload and
+repository validation. It separates engine-specific file handling and
+metadata extraction from mapping into the common BioSim CZ metadata
+model.</p>
+<p>Each engine profile follows the same boundary:</p>
+<ul>
+<li>file classification and required/optional input detection;</li>
+<li>engine-specific extraction into engine-native technical
+metadata;</li>
+<li>adaptor mapping into the BioSim CZ MD Experiment metadata
+schema;</li>
+<li>recording the latest extraction status, selected source files, and
+stage-level messages;</li>
+<li>repository validation and depositor review;</li>
+<li>saving reviewed metadata in the Experiment when the user submits the
+Study.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    Files[&quot;Uploaded Experiment files&quot;]
+
+    subgraph EngineExtraction[&quot;Engine-specific extraction&quot;]
+        Profile[&quot;File classification&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Apply file profile and check required inputs&lt;/span&gt;&quot;]
+        Extractor[&quot;Extractor&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Produce engine-native technical metadata&lt;/span&gt;&quot;]
+        Profile --&gt; Extractor
+    end
+
+    NativeMetadata[&quot;Engine-native extracted metadata&quot;]
+
+    subgraph BioSimMapping[&quot;BioSim CZ mapping&quot;]
+        Adaptor[&quot;Engine-specific adaptor&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Select, normalize, convert, and derive fields&lt;/span&gt;&quot;]
+    end
+
+    Metadata[&quot;Common BioSim CZ MD Experiment metadata&quot;]
+
+    subgraph ReviewStage[&quot;Repository validation and depositor review&quot;]
+        Review[&quot;Validation and review&lt;br/&gt;&lt;span style=&#39;font-size:12px;color:#666&#39;&gt;Check required fields, warnings, and provenance&lt;/span&gt;&quot;]
+    end
+
+    Saved[&quot;Saved reviewed Experiment metadata&quot;]
+
+    Files --&gt; EngineExtraction
+    EngineExtraction --&gt; NativeMetadata
+    NativeMetadata --&gt; BioSimMapping
+    BioSimMapping --&gt; Metadata
+    Metadata --&gt; ReviewStage
+    ReviewStage --&gt; Saved
+
+    classDef artefact fill:#d5f0a3,stroke:#9fca6b,stroke-width:1.5px,color:#2f3f2f;
+    classDef phase fill:#fff4d6,stroke:#d6a700,stroke-width:1.5px,color:#3f2a10;
+    class Files,NativeMetadata,Metadata,Saved artefact;
+    class Profile,Extractor,Adaptor,Review phase;
+
+    style EngineExtraction fill:#fffaf0,stroke:#d6a700,stroke-width:2px,stroke-dasharray: 6 4
+    style BioSimMapping fill:#fffaf0,stroke:#d6a700,stroke-width:2px,stroke-dasharray: 6 4
+    style ReviewStage fill:#fffaf0,stroke:#d6a700,stroke-width:2px,stroke-dasharray: 6 4</code></pre>
+<p>This separation keeps the repository metadata model independent of
+engine-specific field names. In the prototype, the general pattern is
+instantiated only by the GROMACS extraction profile. Extractor and
+adaptor outcomes are recorded together in the Experiment’s
+<code>extraction_provenance</code> object so that a successful engine
+extraction can still report adaptor warnings when values cannot be
+normalized into the common schema.</p>
+<p>The Study is the submitted repository record; Experiments are parts
+of the Study and are not submitted separately. Prototype publication
+does not require curator approval when required fields, required files,
+and automatic checks are complete.</p>
+<h2 data-number="4.2" id="gromacs-extraction-profile"><span
+class="header-section-number">4.2</span> GROMACS Extraction Profile</h2>
+<p>The prototype uses the technical simulation and system output
+produced by <a href="#glossary-gromacs-metadump">GROMACS MetaDump</a> as
+the GROMACS-native extraction source. The GROMACS profile applies the
+general components as follows:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>General component</th>
+<th>GROMACS prototype implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>File profile</td>
+<td>GROMACS file profile with required <code>.tpr</code> and optional
+<code>.top</code> and <code>.gro</code> extraction inputs.</td>
+</tr>
+<tr class="even">
+<td>Extractor</td>
+<td>GROMACS MetaDump, using GROMACS-native output and parsers for
+supported files.</td>
+</tr>
+<tr class="odd">
+<td>Engine-native metadata</td>
+<td>GROMACS technical metadata, including input-record parameters and
+system information.</td>
+</tr>
+<tr class="even">
+<td>Adaptor</td>
+<td>BioSim CZ GROMACS adaptor mapping GROMACS-native values into the
+common MD Experiment schema.</td>
+</tr>
+<tr class="odd">
+<td>Repository metadata</td>
+<td>BioSim CZ MD Experiment metadata described in <a
+href="#metadata-model">Metadata model</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="4.2.1" id="gromacs-file-profile"><span
+class="header-section-number">4.2.1</span> GROMACS File Profile</h3>
+<p>The GROMACS profile defines how uploaded files participate in the
+Experiment and in the GROMACS MetaDump extraction run.</p>
+<p>Each file is classified by a <a
+href="#glossary-file-semantic-type">semantic type</a> from the BioSim CZ
+<a
+href="metadata/vocabularies/file_semantic_type.yaml"><code>vocabularies/file_semantic_type.yaml</code></a>
+vocabulary, which is aligned with MOLSIM molecular data format classes.
+The repository may suggest the semantic type from the filename extension
+and selected GROMACS profile, but the depositor confirms or corrects the
+classification before extraction. The guided GROMACS path requires
+exactly one selected <code>.tpr</code> file classified as
+<code>run_input</code>; this file is the primary source for GROMACS
+MetaDump extraction.</p>
+<p>Files are presented to the depositor with requirement levels:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Requirement</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Required</strong></td>
+<td>Must be provided for extraction to run. Missing required files block
+extraction and publication.</td>
+</tr>
+<tr class="even">
+<td><strong>Recommended</strong></td>
+<td>Should be provided for complete metadata extraction. Missing
+recommended files reduce extraction confidence but do not block
+publication.</td>
+</tr>
+<tr class="odd">
+<td><strong>Optional</strong></td>
+<td>May be provided for additional context. Missing optional files have
+no impact on extraction or publication.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th style="text-align: center;">Requirement</th>
+<th>Semantic type</th>
+<th>Extractor use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.tpr</code></td>
+<td style="text-align: center;"><strong>Required</strong></td>
+<td><code>run_input</code></td>
+<td>Primary extraction source containing topology, parameters, and
+coordinates. Exactly one <code>.tpr</code> must be selected.</td>
+</tr>
+<tr class="even">
+<td><code>.top</code></td>
+<td style="text-align: center;"><strong>Recommended</strong></td>
+<td><code>topology</code></td>
+<td>Main topology source for force-field and water-model hints.</td>
+</tr>
+<tr class="odd">
+<td><code>.gro</code></td>
+<td style="text-align: center;"><strong>Recommended</strong></td>
+<td><code>structure</code></td>
+<td>Structure source for box geometry and system size information.</td>
+</tr>
+<tr class="even">
+<td><code>.xtc</code>, <code>.trr</code></td>
+<td style="text-align: center;"><strong>Optional</strong></td>
+<td><code>trajectory</code></td>
+<td>Simulation trajectory; stored but not used for extraction in the
+prototype.</td>
+</tr>
+<tr class="odd">
+<td><code>.itp</code></td>
+<td style="text-align: center;"><strong>Optional</strong></td>
+<td><code>topology</code></td>
+<td>Supporting topology files; stored but not selected as MetaDump
+inputs.</td>
+</tr>
+<tr class="even">
+<td><code>.edr</code></td>
+<td style="text-align: center;"><strong>Optional</strong></td>
+<td><code>energy_data</code></td>
+<td>Energy data; stored but not used for extraction in the
+prototype.</td>
+</tr>
+<tr class="odd">
+<td><code>.log</code></td>
+<td style="text-align: center;"><strong>Optional</strong></td>
+<td><code>log</code></td>
+<td>Run log; stored but not used for extraction in the prototype.</td>
+</tr>
+<tr class="even">
+<td><code>.mdp</code></td>
+<td style="text-align: center;"><strong>Optional</strong></td>
+<td><code>parameters</code></td>
+<td>Run parameter file; stored for reference.</td>
+</tr>
+</tbody>
+</table>
+<p>When several files share a semantic type, the depositor selects which
+file, if any, is used as the <code>.top</code> or <code>.gro</code>
+MetaDump input; only one selected file per optional MetaDump input role
+is allowed. Multiple secondary files with the same semantic type may
+remain attached to the Experiment when they are not selected as MetaDump
+inputs. Missing recommended <code>.top</code> or <code>.gro</code> files
+reduce the amount or confidence of extracted metadata, but do not block
+extraction. A missing, unreadable, unsupported, ambiguous, or duplicated
+selected <code>.tpr</code> prevents automatic GROMACS extraction and
+blocks publication of the parent Study in the guided prototype MD
+deposit path.</p>
+<h3 data-number="4.2.2" id="gromacs-extractor"><span
+class="header-section-number">4.2.2</span> GROMACS Extractor</h3>
+<p>The GROMACS extractor uses <a
+href="#glossary-gromacs-metadump">GROMACS MetaDump</a> to produce
+GROMACS-native technical metadata from supported GROMACS files.</p>
+<p>For BioSim CZ, the relevant extracted areas are:</p>
+<ul>
+<li>simulation setup and input-record parameters,</li>
+<li>thermodynamic settings,</li>
+<li>temporal extent,</li>
+<li>system size and box information,</li>
+<li>force-field and water-model hints when available.</li>
+</ul>
+<p>The extractor output is not stored directly as BioSim CZ metadata. It
+is first passed to the BioSim CZ GROMACS adaptor.</p>
+<h3 data-number="4.2.3" id="biosim-cz-gromacs-adaptor"><span
+class="header-section-number">4.2.3</span> BioSim CZ GROMACS
+Adaptor</h3>
+<p>The BioSim CZ GROMACS adaptor maps selected GROMACS-native values
+into the BioSim CZ MD Experiment metadata schema described in the
+prototype <a href="#metadata-model">Metadata model</a>.</p>
+<p>The following table shows the prototype mapping from the example
+GROMACS extraction output to the BioSim CZ MD Experiment metadata
+schema.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Extracted field</th>
+<th style="text-align: right;">Example value</th>
+<th>BioSim CZ target</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GROMACS software name</td>
+<td style="text-align: right;"><code>GROMACS</code></td>
+<td><code>metadata.simulation_setup.software</code></td>
+<td>Map to the software vocabulary.</td>
+</tr>
+<tr class="even">
+<td>GROMACS version</td>
+<td style="text-align: right;"><code>2024.3-plumed_2.10b</code></td>
+<td><code>metadata.simulation_setup.software_version</code></td>
+<td>Store as text.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.forcefield</code></td>
+<td style="text-align: right;"><code>amber99</code></td>
+<td><code>metadata.simulation_setup.force_field</code></td>
+<td>Normalize to the force-field vocabulary when possible.</td>
+</tr>
+<tr class="even">
+<td><code>system.water_model</code></td>
+<td style="text-align: right;"><code>tip3p</code></td>
+<td><code>metadata.simulation_setup.water_model</code></td>
+<td>Normalize to the water-model vocabulary.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.inputrec.integrator</code></td>
+<td style="text-align: right;"><code>md</code></td>
+<td><code>metadata.simulation_setup.integrator</code></td>
+<td>Map the GROMACS integrator value to a BioSim CZ vocabulary
+term.</td>
+</tr>
+<tr class="even">
+<td><code>simulation.inputrec.tcoupl</code></td>
+<td style="text-align: right;"><code>V-rescale</code></td>
+<td><code>metadata.thermodynamic_state.thermostat</code></td>
+<td>Normalize to the thermostat vocabulary.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.inputrec.pcoupl</code></td>
+<td style="text-align: right;"><code>Parrinello-Rahman</code></td>
+<td><code>metadata.thermodynamic_state.barostat</code></td>
+<td>Normalize to the barostat vocabulary.</td>
+</tr>
+<tr class="even">
+<td><code>simulation.inputrec.ensemble-temperature</code></td>
+<td style="text-align: right;"><code>300</code></td>
+<td><code>metadata.thermodynamic_state.reference_temperature</code></td>
+<td>Store in K.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.inputrec.ref-p</code></td>
+<td style="text-align: right;">diagonal <code>1</code></td>
+<td><code>metadata.thermodynamic_state.reference_pressure</code></td>
+<td>Derive scalar pressure for isotropic coupling and store in bar.</td>
+</tr>
+<tr class="even">
+<td><code>simulation.inputrec.tcoupl</code> +
+<code>simulation.inputrec.pcoupl</code></td>
+<td style="text-align: right;">thermostat and barostat active</td>
+<td><code>metadata.thermodynamic_state.ensemble</code></td>
+<td>Derive <code>NPT</code> when both temperature and pressure coupling
+are active.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.inputrec.dt</code></td>
+<td style="text-align: right;"><code>0.002</code> ps</td>
+<td><code>metadata.temporal_extent.timestep</code></td>
+<td>Convert ps to fs; example result: <code>2 fs</code>.</td>
+</tr>
+<tr class="even">
+<td><code>simulation.inputrec.nsteps</code></td>
+<td style="text-align: right;"><code>500000</code></td>
+<td><code>metadata.temporal_extent.number_of_steps</code></td>
+<td>Direct integer mapping.</td>
+</tr>
+<tr class="odd">
+<td><code>simulation.inputrec.dt * simulation.inputrec.nsteps</code></td>
+<td style="text-align: right;"><code>1000</code> ps</td>
+<td><code>metadata.temporal_extent.simulation_length</code></td>
+<td>Convert ps to ns; example result: <code>1 ns</code>.</td>
+</tr>
+<tr class="even">
+<td><code>simulation.header.natoms</code></td>
+<td style="text-align: right;"><code>38376</code></td>
+<td><code>metadata.system.total_atoms</code></td>
+<td>Direct integer mapping.</td>
+</tr>
+<tr class="odd">
+<td><code>system.box_size_and_shape</code></td>
+<td
+style="text-align: right;"><code>[7.29118, 7.29118, 7.29118]</code></td>
+<td><code>metadata.system.box_dimensions</code></td>
+<td>Store box lengths in nm, followed by angles in degrees when
+applicable.</td>
+</tr>
+<tr class="even">
+<td>box matrix fields</td>
+<td style="text-align: right;">diagonal cubic matrix</td>
+<td><code>metadata.system.box_type</code></td>
+<td>Derive only when the geometry is clear.</td>
+</tr>
+</tbody>
+</table>
+<p>Adaptor rules:</p>
+<ul>
+<li>BioSim CZ stores normalized MD concepts, not a raw GROMACS parameter
+dump.</li>
+<li>Controlled-vocabulary fields are closed during extraction and
+deposition normalization: stored values must be terms from the
+corresponding BioSim CZ vocabulary.</li>
+<li>GROMACS timestep values are interpreted in ps and converted to fs
+for <code>metadata.temporal_extent.timestep</code>.</li>
+<li>Simulation length is computed from <code>dt * nsteps</code> when
+both values are available and converted from ps to ns.</li>
+<li>Box lengths are stored in nm.</li>
+<li>Derived fields, such as <code>ensemble</code>,
+<code>simulation_length</code>, and <code>box_type</code>, are computed
+only when the source fields are sufficient.</li>
+<li>The current BioSim CZ file and MD vocabularies include
+<code>other</code> for known values that are outside the curated term
+list.</li>
+<li>If a source value is unavailable, unknown, or ambiguous, the
+normalized field is left empty and an adaptor warning is recorded.</li>
+</ul>
+<h2 data-number="4.3"
+id="extractor-validation-and-depositor-review"><span
+class="header-section-number">4.3</span> Extractor Validation and
+Depositor Review</h2>
+<p>Prototype validation is limited to checks needed to run extraction,
+map metadata, and let the depositor review the result before
+submission.</p>
+<p>The prototype-level checks are:</p>
+<ul>
+<li>required extraction input is missing;</li>
+<li>uploaded file is unreadable;</li>
+<li>uploaded file format is unsupported by the extraction profile;</li>
+<li>controlled-vocabulary value is unknown or ambiguous;</li>
+<li>unit conversion fails;</li>
+<li>derived field is ambiguous;</li>
+<li>optional extraction input is missing.</li>
+</ul>
+<p>Missing optional files should be shown as informational warnings and
+recorded in extraction provenance. They should not prevent extraction
+when the required input is available.</p>
+<p>Publication checks distinguish the profile errors described in the
+GROMACS File Profile from incomplete extracted metadata. A failed
+extraction or adaptation status blocks the guided GROMACS deposit path.
+By contrast, missing extracted fields or values normalized to
+<code>other</code> after a non-failed run, reduce metadata completeness
+and produce messages but do not by themselves block publication.</p>
+<h3 data-number="4.3.1" id="extraction-provenance"><span
+class="header-section-number">4.3.1</span> Extraction provenance</h3>
+<p>Extraction provenance is the Experiment-level record of the latest
+automatic extraction and adaptation attempt. It connects the reviewed
+BioSim CZ MD Experiment metadata back to the extraction profile,
+selected source files, processing stages, and diagnostics that produced
+it.</p>
+<p>Schema: <a
+href="metadata/schemas/experiment/definitions/extraction_provenance.yaml"><code>experiment/definitions/extraction_provenance.yaml</code></a></p>
+<p>The provenance object records:</p>
+<ul>
+<li>engine type and selected extraction profile;</li>
+<li>extractor, adaptor, and extraction timestamp;</li>
+<li>overall status for the latest attempt;</li>
+<li>selected source files and their extraction roles;</li>
+<li>messages from the <code>file_profile</code>, <code>extractor</code>,
+or <code>adaptor</code> stage.</li>
+</ul>
+<p>The prototype keeps only the latest extraction state for a draft
+Experiment. Rerunning extraction replaces the previous provenance object
+and automatically extracted metadata while leaving user-provided fields
+such as Experiment <code>name</code> and <code>description</code>
+editable. This latest-attempt model avoids mixing diagnostics and
+extracted values from different file-role selections.</p>
+<p>Extraction messages provide diagnostics for depositor review. Raw
+source values related to unavailable, unknown, ambiguous, or otherwise
+non-stored normalized metadata may be included only in compact, safe
+diagnostic messages. They are not stored as normalized BioSim CZ
+metadata. The prototype stores file-level and stage-level messages only;
+it does not store field-level mapping diagnostics or full raw extractor
+output.</p>
+<p>Depositor review is a confirmation and correction-boundary step, not
+a manual metadata editing step for automatically derived fields. The
+depositor can inspect extracted values, warnings, source files, and
+extraction provenance. If the result appears wrong, for example because
+the wrong file was uploaded or assigned to the wrong role, the depositor
+corrects the files or file-role bindings and reruns extraction.
+Rerunning extraction in a draft replaces the previous extracted metadata
+and provenance. User-provided fields, such as Experiment name and
+description, remain editable through the deposit form.</p>
+<h2 data-number="4.4" id="future-engine-extraction-profiles"><span
+class="header-section-number">4.4</span> Future Engine Extraction
+Profiles</h2>
+<p>The GROMACS profile is the only extraction profile specified for the
+prototype. The architecture remains open to other molecular-dynamics
+engines, but they are not prototype-supported extraction profiles until
+their file profiles and extraction rules are documented from source
+material.</p>
+<p>Future profiles for <a href="#glossary-amber">AMBER</a>, <a
+href="#glossary-namd">NAMD</a>, <a href="#glossary-openmm">OpenMM</a>,
+<a href="#glossary-charmm">CHARMM</a>, or similar engines should use the
+same architectural pattern described in this chapter. For each future
+profile, the missing work is not the repository boundary, but the
+source-backed definition of files, extraction behaviour, validation
+limits, and mappings.</p>
+<h1 data-number="5" id="biosim-cz-prototype-ui"><span
+class="header-section-number">5</span> BioSim CZ Prototype UI</h1>
+<p>The following screenshots document mockup UI views of the BioSim CZ
+prototype. They illustrate how the prototype architecture exposes <a
+href="#glossary-study">Study</a>, <a
+href="#glossary-experiment">Experiment</a>, metadata, deposition, and
+discovery workflows to users.</p>
+<h2 data-number="5.1" id="main-page"><span
+class="header-section-number">5.1</span> Main Page</h2>
+<p>The Main page follows a search-first principle. The primary action is
+to search existing records, while deposition is available as a secondary
+but visible action for authenticated contributors.</p>
+<p><img src="assets/images/main.png" /></p>
+<p>The page intentionally keeps the entry point simple: users can either
+search by free text, identifier, molecule, method, or related term, or
+start a new deposition workflow.</p>
+<h2 data-number="5.2" id="deposit-form"><span
+class="header-section-number">5.2</span> Deposit Form</h2>
+<p>The deposition workflow is organized around the Study / Experiment
+distinction used by the prototype metadata model.</p>
+<h3 data-number="5.2.1" id="study"><span
+class="header-section-number">5.2.1</span> Study</h3>
+<p>The Study step captures metadata that applies to the top-level
+citable record. This includes title, description, license, study type,
+structured creators, funding references, and studied objects.</p>
+<p><img src="assets/images/deposition_study.png" /></p>
+<p>Creators are represented as structured persons rather than a single
+free-text field. The fields reflect <a
+href="#glossary-ccmm">CCMM</a>-relevant concepts such as person name,
+ORCID identifier, and affiliation.</p>
+<h3 data-number="5.2.2" id="experiment"><span
+class="header-section-number">5.2.2</span> Experiment</h3>
+<p>The Experiment step captures concrete computational setups or runs
+nested under the Study. In the prototype, the guided software profile is
+limited to <a href="#glossary-gromacs">GROMACS</a>.</p>
+<p><img src="assets/images/deposition_experiment.png" /></p>
+<p>The GROMACS profile pre-fills expected file roles directly in the
+upload panel. This merges file guidance and file binding: the depositor
+sees which files are expected, why they are relevant, and how each
+uploaded file will be interpreted. The same step provides the entry
+point for <a href="#glossary-metadata-extractors">metadata
+extraction</a> from uploaded files. Automatically extracted metadata are
+shown for review but are not directly editable in the normal deposit
+form; if the result is wrong, the depositor corrects the uploaded files
+or file-role bindings and reruns extraction.</p>
+<h2 data-number="5.3" id="browse-datasets"><span
+class="header-section-number">5.3</span> Browse Datasets</h2>
+<p>Browsing datasets supports faceted discovery of Studies. The filters
+expose both general repository metadata and simulation-specific
+parameters.</p>
+<p><img src="assets/images/browse.png" /></p>
+<p>Result cards summarize the information needed for quick evaluation:
+identifier, creation date, authors, method, short description, and a
+structural preview where available. Simulation parameter filters allow
+users to narrow results by <a
+href="#glossary-molecular-dynamics-md">MD</a>-specific properties such
+as ensemble, simulation length, timestep, temperature, pressure,
+thermostat, and barostat.</p>
+<h2 data-number="5.4" id="dataset-detail"><span
+class="header-section-number">5.4</span> Dataset Detail</h2>
+<p>The detail view is split into three related pages.</p>
+<h3 data-number="5.4.1" id="study-detail"><span
+class="header-section-number">5.4.1</span> Study Detail</h3>
+<p>The Study detail view shows the citable record with title, creators,
+dataset classification, and studied objects. The sidebar provides
+citation guidance with accession identifier and DOI.</p>
+<p><img src="assets/images/detail_study.png" /></p>
+<h3 data-number="5.4.2" id="experiments-list"><span
+class="header-section-number">5.4.2</span> Experiments List</h3>
+<p>The Experiments tab lists nested Experiment records with a table of
+Experiment IDs and names. Common MD metadata is shown once, followed by
+a differences table.</p>
+<p><img src="assets/images/detail_experiments.png" /></p>
+<h3 data-number="5.4.3" id="experiment-detail"><span
+class="header-section-number">5.4.3</span> Experiment Detail</h3>
+<p>The Experiment detail view shows extracted MD metadata. Individual
+files are listed with semantic types and download links. The sidebar
+shows the Study hierarchy and navigation back to the Experiments
+list.</p>
+<p><img src="assets/images/detail_experiment.png" /></p>
+<h1 data-number="6" id="glossary"><span
+class="header-section-number">6</span> Glossary</h1>
+<p>This glossary defines domain and platform terms used in the
+architecture documentation. Definitions are written to be understandable
+without following project links.</p>
+<h2 data-number="6.1" id="terms"><span
+class="header-section-number">6.1</span> Terms</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span id="glossary-3d-beacons-network">3D-Beacons
+Network</span></td>
+<td>A federation of biomolecular structure resources that supports
+discovery of experimentally determined and predicted 3D structure
+information.</td>
+<td><a href="https://3d-beacons.org">3d-beacons.org</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-alphafold-db">AlphaFold DB</span></td>
+<td>A database of predicted protein structures produced using AlphaFold.
+BioSim CZ may reference AlphaFold DB entries through studied-object
+identifiers.</td>
+<td><a href="https://alphafold.ebi.ac.uk/">alphafold.ebi.ac.uk</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-alphafold-db-id">AlphaFold DB ID</span></td>
+<td>An identifier for a predicted protein structure entry in AlphaFold
+DB.</td>
+<td><a href="https://alphafold.ebi.ac.uk/">alphafold.ebi.ac.uk</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-amber">AMBER</span></td>
+<td>A molecular dynamics simulation software package and file
+ecosystem.</td>
+<td><a href="https://ambermd.org/">ambermd.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-biotools">bio.tools</span></td>
+<td>A registry of software tools and databases used in the life
+sciences.</td>
+<td><a href="https://bio.tools/">bio.tools</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-bioexcel-mddb--mdposit">BioExcel MDDB /
+MDposit</span></td>
+<td>A European molecular-dynamics data initiative concerned with
+deposition, management, and access to molecular dynamics datasets.</td>
+<td><a href="https://bioexcel.eu/">bioexcel.eu</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-biosim-cz">BioSim CZ</span></td>
+<td>A Czech repository for structural and simulation data, implemented
+on an Invenio-based repository platform.</td>
+<td><a href="https://biosim.cz">biosim.cz</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-biosim-cz-accession-identifier">BioSim CZ
+accession identifier</span></td>
+<td>A human-readable stable identifier assigned by BioSim CZ to a
+published Study, such as <code>MD_000001</code>. It is distinct from
+platform-level technical identifiers and from external identifiers such
+as DOI.</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-biosim-cz-domain-extension">BioSim CZ domain
+extension</span></td>
+<td>A repository-specific extension layer that adds structural and
+simulation metadata, forms, user-interface behaviour, and metadata
+extraction integration to the base platform.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-ccmm">CCMM</span></td>
+<td>Czech Core Metadata Model, a common metadata model used as a shared
+layer for repository records.</td>
+<td><a href="https://www.ccmm.cz">www.ccmm.cz</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-cesnet-invenio">CESNET Invenio</span></td>
+<td>An Invenio-based repository implementation with custom extensions to
+work on the e-INFRA CZ architecture.</td>
+<td><a
+href="https://nrp-cz.github.io/docs/">nrp-cz.github.io/docs/</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-charmm">CHARMM</span></td>
+<td>A molecular simulation program and force-field ecosystem used for
+biomolecular modelling.</td>
+<td><a href="https://www.charmm.org/">charmm.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-coarse-grained-cg-simulation">Coarse-grained (CG)
+simulation</span></td>
+<td>A simulation approach that represents groups of atoms or molecules
+as larger interaction units to reduce detail and computational
+cost.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-doi">DOI</span></td>
+<td>Digital Object Identifier, a globally resolvable persistent
+identifier registered through a DOI registration agency.</td>
+<td><a href="https://www.doi.org/">doi.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-e-infra-cz">e-INFRA CZ</span></td>
+<td>Czech national e-infrastructure consortium that integrates
+high-performance computing, data storage, and advanced networking
+services to support research, education, and innovation.</td>
+<td><a href="https://www.e-infra.cz/">e-infra.cz</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-elixir-cz">ELIXIR CZ</span></td>
+<td>The Czech node of ELIXIR, the European life-science data
+infrastructure.</td>
+<td><a href="https://www.elixir-czech.cz/">elixir-czech.cz</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-experiment">Experiment</span></td>
+<td>A concrete computational setup or run nested within a Study. Files
+and extracted metadata are attached to Experiments.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-fair">FAIR</span></td>
+<td>An acronym for Findable, Accessible, Interoperable, and Reusable.
+FAIR principles are guidelines for making data and digital objects more
+discoverable and usable by humans and machines.</td>
+<td><a
+href="https://www.go-fair.org/fair-principles/">go-fair.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-fairification">FAIRification</span></td>
+<td>In BioSim CZ, the repository and metadata workflow that improves
+alignment with FAIR principles through identifiers, metadata schemas,
+vocabularies, publication and download through the repository platform,
+provenance, licensing, and depositor review. In the prototype, it does
+not mean complete FAIR compliance.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-file-semantic-type">File semantic
+type</span></td>
+<td>A controlled vocabulary term that classifies the domain meaning of a
+file attached to an Experiment (e.g., parameter file, trajectory,
+topology). Aligned with MOLSIM molecular data format classes.</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-gromacs">GROMACS</span></td>
+<td>A molecular dynamics simulation package commonly used for
+biomolecular simulations.</td>
+<td><a href="https://gromacs.org/">gromacs.org</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-gromacs-metadump">GROMACS MetaDump</span></td>
+<td>A metadata extractor for GROMACS simulations that uses
+<code>.tpr</code> files as the main source, can use <code>.top</code>
+and <code>.gro</code> files as additional sources, and can produce JSON
+or YAML metadata.</td>
+<td><a href="https://gmd.ceitec.cz/">gmd.ceitec.cz</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-metadata-extractors">Metadata
+extractors</span></td>
+<td>Tools that read simulation or structural data files and produce
+structured metadata suitable for validation, transformation, or
+repository ingestion.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-mmcif">mmCIF</span></td>
+<td>Macromolecular Crystallographic Information File, a structured file
+format for representing biomolecular structure data.</td>
+<td><a href="https://mmcif.wwpdb.org/">mmcif.wwpdb.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-molecular-dynamics-md">Molecular dynamics
+(MD)</span></td>
+<td>A computational simulation method for modelling the time-dependent
+behaviour of atoms or molecules.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-molsim">MOLSIM</span></td>
+<td>A domain ontology designed to semantically represent
+platform-agnostic atomistic biomolecular simulations as datasets. MOLSIM
+standardizes the representation of biomolecular simulation data,
+processes, and methodologies across different platforms and tools.</td>
+<td><a
+href="https://github.com/CPCLab/molsim-ontology">github.com/CPCLab/molsim-ontology</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-namd">NAMD</span></td>
+<td>A molecular dynamics simulation package used for biomolecular
+simulations.</td>
+<td><a
+href="https://www.ks.uiuc.edu/Research/namd/">ks.uiuc.edu/Research/namd</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-nmd">NMD</span></td>
+<td>The National Metadata Directory.</td>
+<td><a href="https://nma.eosc.cz/">nma.eosc.cz/</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-nrp">NRP</span></td>
+<td>The National Repository platform.</td>
+<td><a
+href="https://www.eosc.cz/projekty/narodni-repozitarova-platforma-pro-vyzkumna-data-nrp/nrp">www.eosc.cz/projekty/narodni-repozitarova-platforma-pro-vyzkumna-data-nrp/nrp</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-openmm">OpenMM</span></td>
+<td>A toolkit and simulation engine for molecular dynamics.</td>
+<td><a href="https://openmm.org/">openmm.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-pdb-format">PDB format</span></td>
+<td>A legacy Protein Data Bank coordinate file format for biomolecular
+structures.</td>
+<td><a
+href="https://www.wwpdb.org/documentation/file-format">wwpdb.org/documentation/file-format</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-pdb-id">PDB ID</span></td>
+<td>An identifier assigned by the Protein Data Bank to a biomolecular
+structure entry.</td>
+<td><a href="https://www.wwpdb.org/">wwpdb.org</a></td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-pdbe-kb">PDBe-KB</span></td>
+<td>A knowledge base that integrates annotations and biological context
+for macromolecular structures in the Protein Data Bank in Europe
+ecosystem.</td>
+<td><a
+href="https://www.ebi.ac.uk/pdbe/pdbe-kb">ebi.ac.uk/pdbe/pdbe-kb</a></td>
+</tr>
+<tr class="even">
+<td><span id="glossary-persistent-identifier">Persistent
+identifier</span></td>
+<td>A stable identifier intended to keep identifying the same digital
+object over time.</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-pid">PID</span></td>
+<td>Abbreviation for persistent identifier. In this architecture, PID
+does not imply DOI registration.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-predicted-structural-ensemble">Predicted
+structural ensemble</span></td>
+<td>A set of predicted molecular structures representing possible
+conformations or states of a biomolecular system.</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-structural-simulation-data">Structural simulation
+data</span></td>
+<td>Simulation data concerning 3D structures of biomacromolecules.</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><span id="glossary-study">Study</span></td>
+<td>The top-level repository record in BioSim CZ. A Study represents one
+coherent deposited dataset and is the main unit of publication, search,
+and citation.</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td><span id="glossary-uniprot-id">UniProt ID</span></td>
+<td>An identifier assigned by UniProt to a protein sequence entry.</td>
+<td><a href="https://www.uniprot.org/">uniprot.org</a></td>
+</tr>
+</tbody>
+</table>
+  </main>
+</div>
+
+<div class="yaml-modal-overlay" id="yamlModalOverlay"></div>
+<div class="yaml-modal" id="yamlModal">
+  <div class="yaml-modal-header">
+    <h3 class="yaml-modal-title" id="yamlModalTitle">YAML File</h3>
+    <button class="yaml-modal-close" id="yamlModalClose" aria-label="Close">&times;</button>
+  </div>
+  <div class="yaml-modal-content">
+    <pre><code id="yamlModalContent" class="language-yaml"></code></pre>
+  </div>
+</div>
+<div class="diagram-modal-overlay" id="diagramModalOverlay"></div>
+<div class="diagram-modal" id="diagramModal">
+  <div class="diagram-modal-header">
+    <h3 class="diagram-modal-title" id="diagramModalTitle">Diagram</h3>
+    <div class="diagram-modal-controls" aria-label="Diagram zoom controls">
+      <button type="button" id="diagramZoomOut" aria-label="Zoom out">−</button>
+      <button type="button" id="diagramZoomReset" aria-label="Reset zoom">Reset</button>
+      <button type="button" id="diagramZoomIn" aria-label="Zoom in">+</button>
+      <button type="button" class="diagram-modal-close" id="diagramModalClose" aria-label="Close">&times;</button>
+    </div>
+  </div>
+  <div class="diagram-modal-help">Use mouse wheel or the buttons to zoom. Drag the diagram to move around.</div>
+  <div class="diagram-modal-viewport" id="diagramModalViewport"></div>
+</div>
+<div class="img-lightbox-overlay" id="imgLightboxOverlay"></div>
+<div class="img-lightbox" id="imgLightbox">
+  <button class="img-lightbox-close" id="imgLightboxClose" aria-label="Close">&times;</button>
+  <img src="" alt="" id="imgLightboxImg">
+</div>
+<script src="assets/yaml-data.js"></script>
+<script src="assets/yaml-modal.js" defer></script>
+<script src="assets/mermaid-support.js" defer></script>
+<script src="assets/image-lightbox.js" defer></script>
+<script defer>
+  (function() {
+    var toggle = document.getElementById('tocToggle');
+    var sidebar = document.getElementById('TOC');
+    if (toggle && sidebar) {
+      toggle.addEventListener('click', function() {
+        sidebar.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', sidebar.classList.contains('is-open'));
+      });
+    }
+  })();
+</script>
+</body>
+</html>
